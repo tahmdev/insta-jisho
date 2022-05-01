@@ -1,38 +1,65 @@
-.App {
-  text-align: center;
+html, body, #root, .App {
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.App{
   display: flex;
   flex-direction: column;
-  align-items: center;
+  background-color: orange;
+}
+main{
+  height: 100%;
+}
+/* Utility classes start*/
+
+.container{
+  margin: 0 auto;
+  width: min(95%, 1400px);
+  background-color: red;
+  height: 100%;
+  margin-bottom: 1rem ;
+}
+.flex-center{
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+}
+.flex{
+  display: flex;
+  background-color: aqua;
 }
 
-.App-link {
-  color: #61dafb;
+/* Utility classes end */
+
+.definition-wrapper{
+  width: 100%;
+}
+.kanji-and-examples{
+  width: 50%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.result-select{
+  height: 90vh;
+  overflow-y: scroll;
+  font-size: 1rem;
+  width: 12rem;
+}
+nav {
+  background-color: green;
+}
+
+
+.radical-button{
+  display: inline-block;
+}
+.radical-checkbox{
+  display: none;
+}
+.radical-select{
+  height: 200px;
+  overflow: auto;
+  margin-bottom: 2rem;
 }
