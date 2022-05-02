@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import ResultSelect from './components/result-select';
 import DefinitionDisplay from './components/definition-display';
 import RadicalLookup from './components/radical-lookup';
+import Navbar from './components/navbar';
 // Add Handwriting input
 // Add radical input
 // Add kb controls 
@@ -14,6 +15,7 @@ function App() {
   let [examples, setExamples] = useState()
   let [type, setType] = useState("Includes")
   let [selected, setSelected] = useState()
+  let [showRadicalInput, setShowRadicalInput] = useState(false)
   let timeoutID = useRef()
   // fetch data on search update  
   useEffect(() => {
@@ -37,19 +39,18 @@ function App() {
 
   return (
     <div className="App">
-      <nav className='flex-center'>
-        <input onChange={e => setQuery(e.target.value)} value={query} />
-        <select onChange={e => setType(e.target.value)}>
-          <option>Includes</option>
-          <option>Exact</option>  
-          <option>Prefix</option>  
-          <option>Suffix</option>  
-        </select>
-      </nav>
+      
+      <Navbar 
+        setQuery={setQuery}
+        query={query}
+        setType={setType}
+        setShowRadicalInput={setShowRadicalInput}
+        showRadicalInput={showRadicalInput}
+      />
 
-      <div className='container radical-lookup-wrapper'>
+     {showRadicalInput && <div id="radical-lookup-wrapper" className='container' onTransitionEnd={() => setShowRadicalInput(false)} >
         <RadicalLookup setQuery={setQuery} />
-      </div>
+      </div>}
 
       <main>
         <div className='container flex'>

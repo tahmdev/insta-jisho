@@ -5,7 +5,7 @@ const RadicalLookup = ({setQuery}) => {
   let [selected, setSelected] = useState([])
 
   useEffect(() => {
-    console.log(selected)
+    // Calculate Possible options 
   }, [selected])
 
   const handleUpdateSelected = (e, value) => {
@@ -21,7 +21,6 @@ const RadicalLookup = ({setQuery}) => {
 
   //takes an array of arrays and returns one array containing all mutual children
   const mutualChildren = (initArray) => {
-    console.log(initArray)
     if (initArray.length > 1){
       const getAmount = (array, entry) => {
         return array.filter(item => item === entry).length
@@ -43,10 +42,9 @@ const RadicalLookup = ({setQuery}) => {
   }
 
   return(
-    <div>
+    <div onTransitionEnd={() => console.log("a")} >
       <div className="radical-select">
         {mutualChildren(selected).map(item => {
-          console.log(item)
           return(
             <button onClick={() => setQuery(prev => prev + item)} > {item} </button>
           )

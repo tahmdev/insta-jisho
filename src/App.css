@@ -29,6 +29,7 @@ main{
 }
 .flex{
   display: flex;
+  transition: all, 200ms, ease-in-out;
   background-color: aqua;
 }
 
@@ -49,6 +50,7 @@ main{
 }
 nav {
   background-color: green;
+  z-index: 20;
 }
 
 
@@ -62,4 +64,18 @@ nav {
   height: 200px;
   overflow: auto;
   margin-bottom: 2rem;
+}
+#radical-lookup-wrapper{
+  transition: all 200ms ease-in-out;
+  animation-name: slide-in-top;
+  animation-duration: 200ms;
+  animation-timing-function: ease-in-out;
+}
+@keyframes slide-in-top{
+  from{
+    transform: translateY(-100%);
+  }
+  to{
+    transform: translateY(0);
+  }
 }
