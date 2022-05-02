@@ -53,9 +53,22 @@ nav {
   z-index: 20;
 }
 
-
+/*Radical input*/
+.radical-input > * {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently */
+}
 .radical-button{
   display: inline-block;
+}
+
+.radical-button :checked + label{
+  color: black !important;
+  background-color: white;
 }
 .radical-checkbox{
   display: none;
@@ -85,4 +98,12 @@ nav {
   to{
     transform: translateY(0);
   }
+}
+
+
+/* Handwriting Input*/
+.handwriting-canvas{
+  border: 2px solid black;
+  background-color: black;
+  margin-left: 5rem;
 }

@@ -5,6 +5,7 @@ import ResultSelect from './components/result-select';
 import DefinitionDisplay from './components/definition-display';
 import RadicalLookup from './components/radical-lookup';
 import Navbar from './components/navbar';
+import HandwritingInput from './components/handwriting';
 // Add Handwriting input
 // Add radical input
 // Add kb controls 
@@ -17,6 +18,7 @@ function App() {
   let [selected, setSelected] = useState()
   let [showRadicalInput, setShowRadicalInput] = useState(false)
   let timeoutID = useRef()
+  
   // fetch data on search update  
   useEffect(() => {
     if(timeoutID.current) clearTimeout(timeoutID.current)
@@ -37,9 +39,9 @@ function App() {
     }
   }, [query])
 
+  
   return (
     <div className="App">
-      
       <Navbar 
         setQuery={setQuery}
         query={query}
@@ -48,9 +50,14 @@ function App() {
         showRadicalInput={showRadicalInput}
       />
 
-     {showRadicalInput && <div id="radical-lookup-wrapper" className='container' onTransitionEnd={() => setShowRadicalInput(false)} >
+     {showRadicalInput && 
+      <div id="radical-lookup-wrapper" className='container' onTransitionEnd={() => setShowRadicalInput(false)} >
         <RadicalLookup setQuery={setQuery} />
       </div>}
+
+      <div id="handwriting-wrapper">
+        <HandwritingInput />
+      </div>
 
       <main>
         <div className='container flex'>

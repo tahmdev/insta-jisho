@@ -60,24 +60,28 @@ const RadicalLookup = ({setQuery}) => {
           Object.keys(radicalData).map((key, idx, arr) => {
             // render stroke count if previous stroke count < new stroke count
             const renderStrokeCount = idx === 0 || radicalData[key].strokes !== radicalData[arr[idx-1]].strokes
-
             return(
+              <>
+              {renderStrokeCount && <span> {radicalData[key].strokes} </span>}
+
               <div className="radical-button" >
-                {renderStrokeCount && <span> {radicalData[key].strokes} </span>}
-                <label  htmlFor={key} 
-                className={`${hasMutualChildren(selected, radicalData[key].kanji) ? "enabled-radical" : "disabled-radical"}`}
-                > 
-                  {key}
-                </label>
+
                 <input 
                   className="radical-checkbox" 
                   type="checkbox"
                   id={key}
                   value={radicalData[key]}
                   onChange={e => handleUpdateSelected(e, radicalData[key].kanji)} 
-                  
                 />
+                <label  
+                htmlFor={key} 
+                className={`${hasMutualChildren(selected, radicalData[key].kanji) ? "enabled-radical" : "disabled-radical"}`}
+                > 
+                  {key}
+                </label>
               </div> 
+              </>
+              
             )
           })
         }
