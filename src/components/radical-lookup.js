@@ -40,7 +40,11 @@ const RadicalLookup = ({setQuery}) => {
     }
     else return initArray.flat()
   }
-
+  
+  const hasMutualChildren = (arr1, arr2) => {
+    if(arr1.length === 0) return true
+    return mutualChildren(arr1).some(i => arr2.includes(i))
+  }
   return(
     <div onTransitionEnd={() => console.log("a")} >
       <div className="radical-select">
@@ -60,13 +64,18 @@ const RadicalLookup = ({setQuery}) => {
             return(
               <div className="radical-button" >
                 {renderStrokeCount && <span> {radicalData[key].strokes} </span>}
-                <label htmlFor={key} > {key} </label>
+                <label  htmlFor={key} 
+                className={`${hasMutualChildren(selected, radicalData[key].kanji) ? "enabled-radical" : "disabled-radical"}`}
+                > 
+                  {key}
+                </label>
                 <input 
                   className="radical-checkbox" 
                   type="checkbox"
                   id={key}
                   value={radicalData[key]}
                   onChange={e => handleUpdateSelected(e, radicalData[key].kanji)} 
+                  
                 />
               </div> 
             )

@@ -71,6 +71,13 @@ nav {
   animation-duration: 200ms;
   animation-timing-function: ease-in-out;
 }
+.enabled-radical:hover{
+  cursor: pointer;
+}
+.disabled-radical{
+  color: grey;
+  pointer-events: none;
+}
 @keyframes slide-in-top{
   from{
     transform: translateY(-100%);
