@@ -1,8 +1,10 @@
-import { useEffect, useRef } from "react";
-export default function useEventListener(type, callback, ref, element) {
+import { useEffect } from "react";
+export default function useEventListener(type, callback, element, condition = true) {
   useEffect(() => {
-    if (ref) element = ref.current
-    element.addEventListener(type, callback)
-    return () => element.removeEventListener(type, callback)
+    if(condition){
+      let e = element.current || element
+      e.addEventListener(type, callback)
+      return () => e.removeEventListener(type, callback)
+    }
   }, [callback])
 }
