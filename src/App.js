@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useEffect, useRef, useState } from 'react';
 import ResultSelect from './components/result-select';
@@ -6,7 +5,7 @@ import DefinitionDisplay from './components/definition-display';
 import RadicalLookup from './components/radical-lookup';
 import Navbar from './components/navbar';
 import HandwritingInput from './components/handwriting';
-// Add Handwriting input
+// Add Handwriting input <= Add language prop, options prop({lineCap: "", lineJoin, "", color: (strokeStyle), lineWidth: ""})
 // Add radical input
 // Add kb controls 
 
@@ -54,10 +53,8 @@ function App() {
       <div id="radical-lookup-wrapper" className='container' onTransitionEnd={() => setShowRadicalInput(false)} >
         <RadicalLookup setQuery={setQuery} />
       </div>}
-
-      <div id="handwriting-wrapper">
-        <HandwritingInput />
-      </div>
+      
+      <HandwritingInput vw={50} minWidth={200} maxWidth={727} height={300} />
 
       <main>
         <div className='container flex'>
