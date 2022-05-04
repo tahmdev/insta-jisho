@@ -7,6 +7,10 @@ import Navbar from './components/navbar';
 import HandwritingInput from './components/handwriting';
 
 // Add kb controls 
+// slide in handwriting input 
+// Button that clears + focuses search bar
+// button that focuses select 
+// wasd on select
 
 function App() {
   let [query, setQuery] = useState("")
@@ -14,7 +18,7 @@ function App() {
   let [examples, setExamples] = useState()
   let [type, setType] = useState("Includes")
   let [selected, setSelected] = useState()
-  let [showRadicalInput, setShowRadicalInput] = useState(false)
+  let [showInput, setShowInput] = useState("none")
   let timeoutID = useRef()
   
   // fetch data on search update  
@@ -44,19 +48,19 @@ function App() {
         setQuery={setQuery}
         query={query}
         setType={setType}
-        setShowRadicalInput={setShowRadicalInput}
-        showRadicalInput={showRadicalInput}
+        setShowInput={setShowInput}
+        showInput={showInput}
       />
 
-     {showRadicalInput && 
-      <div id="radical-lookup-wrapper" className='container' onTransitionEnd={() => setShowRadicalInput(false)} >
-        <RadicalLookup setQuery={setQuery} showRadicalInput={showRadicalInput} />
+     {showInput === "radical" && 
+      <div id="radical-lookup-wrapper" className='container' >
+        <RadicalLookup setQuery={setQuery} showInput={showInput} />
       </div>}
       
       <HandwritingInput 
-        vw={50} 
+        vw={95} 
         minWidth={200} 
-        maxWidth={727} 
+        maxWidth={450} 
         height={300} 
         language={"ja"}
         handleButton={e => setQuery(prev => prev + e.target.value)}

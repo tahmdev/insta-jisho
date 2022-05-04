@@ -1,11 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import radicalData from "../radk.json"
 
 const RadicalLookup = ({setQuery}) => {
   let [selected, setSelected] = useState([])
+  let [mutualChildren, setMutualChildren] = useState([])
+  let [enabled, setEnabled] = useState([])
 
   const handleUpdateSelected = (e, value) => {
-    console.log(value)
     if (e.target.checked) setSelected(prev => [value, ...prev])
 
     if (!e.target.checked) setSelected(prev => {
@@ -15,9 +16,13 @@ const RadicalLookup = ({setQuery}) => {
     })
   }
 
+  useEffect(() => {
+    setMutualChildren(getMutualChildren(selected))
+  }, [selected])
+
   //takes an array of arrays and returns one array containing all mutual children
   //by checking whether an item appears as many times as there are arrays
-  const mutualChildren = (initArray) => {
+  const getMutualChildren = (initArray) => {
     if (initArray.length > 1){
       const getAmount = (array, entry) => {
         return array.filter(item => item === entry).length
@@ -39,14 +44,19 @@ const RadicalLookup = ({setQuery}) => {
     else return initArray.flat()
   }
   
-  const hasMutualChildren = (arr1, arr2) => {
-    if(arr1.length === 0) return true
-    return mutualChildren(arr1).some(i => arr2.includes(i))
-  }
+  useEffect(() => {
+    if (selected.length === 0) setEnabled(Object.keys(radicalData))
+    else {let newArr = Object.keys(radicalData).filter(key => {
+      return radicalData[key].kanji
+      .some(kanji => mutualChildren.includes(kanji))
+    })
+    setEnabled(newArr)}
+  }, [mutualChildren])
+
   return(
-    <div onTransitionEnd={() => console.log("a")} >
+    <div>
       <div className="radical-select">
-        {mutualChildren(selected).map(item => {
+        {mutualChildren.map(item => {
           return(
             <button onClick={() => setQuery(prev => prev + item)} > {item} </button>
           )
@@ -58,6 +68,7 @@ const RadicalLookup = ({setQuery}) => {
           Object.keys(radicalData).map((key, idx, arr) => {
             // render stroke count if previous stroke count < new stroke count
             const renderStrokeCount = idx === 0 || radicalData[key].strokes !== radicalData[arr[idx-1]].strokes
+            
             return(
               <>
               {renderStrokeCount && <span> {radicalData[key].strokes} </span>}
@@ -73,13 +84,12 @@ const RadicalLookup = ({setQuery}) => {
                 />
                 <label  
                 htmlFor={key} 
-                className={`${hasMutualChildren(selected, radicalData[key].kanji) ? "enabled-radical" : "disabled-radical"}`}
+                className={`${enabled.includes(key) ? "enabled-radical" : "disabled-radical"}`}
                 > 
                   {key}
                 </label>
               </div> 
               </>
-              
             )
           })
         }

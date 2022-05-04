@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 
-const Navbar = ({setQuery, query ,setType, setShowRadicalInput, showRadicalInput}) => {
+const Navbar = ({setQuery, query ,setType, setShowInput, showInput}) => {
 
   const handleRadical = () => {
-    if (showRadicalInput) {
+    console.log(showInput)
+    if (showInput === "radical") {
       document.getElementById("radical-lookup-wrapper").classList.add("slide-out-top")
       setTimeout(() => {
-        setShowRadicalInput(false)
-      }, 300);
+        setShowInput("none")
+      }, 200);
     }else{
-      setShowRadicalInput(true)
+      setShowInput("radical")
     }
   }
 

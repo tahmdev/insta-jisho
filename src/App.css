@@ -17,7 +17,7 @@ main{
 
 .container{
   margin: 0 auto;
-  width: min(95%, 1400px);
+  width: min(95vw, 1400px);
   background-color: red;
   height: 100%;
   margin-bottom: 1rem ;
@@ -79,7 +79,7 @@ nav {
   margin-bottom: 2rem;
 }
 #radical-lookup-wrapper{
-  transition: all 200ms ease-in-out;
+  transition: max-height 200ms ease-in-out;
   animation-name: slide-in-top;
   overflow: hidden;
   animation-duration: 250ms;
@@ -103,7 +103,8 @@ nav {
 .slide-out-top{
   animation-name: slide-out-top !important;
   animation-duration: 300ms;
-  animation-timing-function: ease-out;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
 }
 @keyframes slide-out-top{
   from{
@@ -122,13 +123,15 @@ nav {
   flex-direction: column;
   width: fit-content;
   margin: auto;
+  animation-name: slide-in-top;
+  animation-duration: 250ms;
+  animation-timing-function: ease-out;
 }
 #handwriting-wrapper span{
   color: black;
   font-size: 2rem;
 }
 .handwriting-canvas{
-  border: 2px solid black;
   background-color: black;
   overflow: hidden;
 }
