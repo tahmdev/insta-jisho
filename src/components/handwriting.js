@@ -1,7 +1,7 @@
 import { useState } from "react";
 import HandwritingCanvas from "./handwriting-canvas";
 import useEventListener from "./useEventListener";
-const HandwritingInput = ({width, height, maxHeight, maxWidth, minHeight, minWidth, vw, vh, handleButton}) => {
+const HandwritingInput = ({width, height, maxHeight, maxWidth, minHeight, minWidth, vw, vh, handleButton, language, options}) => {
   let [results, setResults] = useState()
   let [widthRes, setWidthRes] = useState(minMax(percentOf(vw, window.screen.width), minWidth || -Infinity, maxWidth || Infinity))
   let [heightRes, setHeightRes] = useState(minMax(percentOf(vh, window.screen.width), minWidth || -Infinity, maxWidth || Infinity))
@@ -21,7 +21,9 @@ const HandwritingInput = ({width, height, maxHeight, maxWidth, minHeight, minWid
         h={heightRes || height}
         setResults={setResults}
         ink={ink}
+        language={language}
         setInk={setInk}
+        options={options}
       />
       <div className="flex">
         <button className="clear-ink-button" onClick={() => {setInk([]); setResults([])}} >Clear</button>

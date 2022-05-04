@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import useEventListener from "./useEventListener"
 
-const HandwritingCanvas = ({w, h, setResults, ink, setInk}) => {
+const HandwritingCanvas = ({w, h, setResults, ink, setInk, language, options = {}}) => {
   let [active, setActive] = useState(false)
   let [currentInput, setCurrentInput] = useState()
 
@@ -18,7 +18,7 @@ const HandwritingCanvas = ({w, h, setResults, ink, setInk}) => {
               "writing_area_height": h,
           },
           "ink": ink,
-          "language": "ja"
+          "language": language
       }]
     });
     fetch("https://www.google.com.tw/inputtools/request?ime=handwriting&app=mobilesearch&cs=1&oe=UTF-8", {method: "POST", headers: {'Content-Type': 'application/json'}  ,body: data})
@@ -36,10 +36,10 @@ const HandwritingCanvas = ({w, h, setResults, ink, setInk}) => {
     let context = ref.current.getContext("2d")
     context.canvas.width = w
     context.canvas.height = h
-    context.lineWidth = 5
-    context.lineCap = "round"
-    context.lineJoin = "round"
-    context.strokeStyle = "#FFF"
+    context.lineWidth = options.lineWidth || 5
+    context.lineCap = options.lineCap || "round"
+    context.lineJoin = options.lineJoin || "round"
+    context.strokeStyle = options.color || "#FFF"
   }, [w, h])
 
   // Handle clear canvas and lookUp

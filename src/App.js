@@ -6,7 +6,6 @@ import RadicalLookup from './components/radical-lookup';
 import Navbar from './components/navbar';
 import HandwritingInput from './components/handwriting';
 
-// Add Handwriting input <= Add language prop, options prop({lineCap: "", lineJoin, "", color: (strokeStyle), lineWidth: ""})
 // Add kb controls 
 
 function App() {
@@ -53,12 +52,13 @@ function App() {
       <div id="radical-lookup-wrapper" className='container' onTransitionEnd={() => setShowRadicalInput(false)} >
         <RadicalLookup setQuery={setQuery} showRadicalInput={showRadicalInput} />
       </div>}
-
+      
       <HandwritingInput 
         vw={50} 
         minWidth={200} 
         maxWidth={727} 
         height={300} 
+        language={"ja"}
         handleButton={e => setQuery(prev => prev + e.target.value)}
       />
 
