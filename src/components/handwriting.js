@@ -1,12 +1,11 @@
 import { useState } from "react";
 import HandwritingCanvas from "./handwriting-canvas";
 import useEventListener from "./useEventListener";
-const HandwritingInput = ({width, height, maxHeight, maxWidth, minHeight, minWidth, vw, vh}) => {
-  let [ink, setInk] = useState([])
+const HandwritingInput = ({width, height, maxHeight, maxWidth, minHeight, minWidth, vw, vh, handleButton}) => {
   let [results, setResults] = useState()
   let [widthRes, setWidthRes] = useState(minMax(percentOf(vw, window.screen.width), minWidth || -Infinity, maxWidth || Infinity))
   let [heightRes, setHeightRes] = useState(minMax(percentOf(vh, window.screen.width), minWidth || -Infinity, maxWidth || Infinity))
-
+  let [ink, setInk] = useState([])
 
   const handleResize = () => {
     setWidthRes(minMax(percentOf(vw, window.innerWidth), minWidth || -Infinity, maxWidth || Infinity))
@@ -14,39 +13,29 @@ const HandwritingInput = ({width, height, maxHeight, maxWidth, minHeight, minWid
   }
   useEventListener("resize", handleResize, window, vw !== undefined || vh !== undefined)
 
-  const test = () => {
-    let data = JSON.stringify({
-      "options": "enable_pre_space",
-      "requests": [{
-          "writing_guide": {
-              "writing_area_width": widthRes || width,
-              "writing_area_height": heightRes || height,
-          },
-          "ink": ink,
-          "language": "ja"
-      }]
-    });
-    fetch("https://www.google.com.tw/inputtools/request?ime=handwriting&app=mobilesearch&cs=1&oe=UTF-8", {method: "POST", headers: {'Content-Type': 'application/json'}  ,body: data})
-    .then(res => res.json())
-    .then(json => {
-      if (json.length === 2){
-        setResults(json[1][0][1])
-      } 
-    })
-  }
 
-  const debug = () => {
-    console.log(document.getElementById("cv").width)
-  }
   return(
     <div id="handwriting-wrapper">
-      <HandwritingCanvas setInk={setInk} ink={ink} w={widthRes || width} h={heightRes || height} />
-      <button onClick={test}>
-        test
-      </button>
-      <button onClick={() => setInk([])}>Clear</button>
-      <button onClick={debug}>Debug</button>
-      <span> {results} </span>
+      <HandwritingCanvas 
+        w={widthRes || width} 
+        h={heightRes || height}
+        setResults={setResults}
+        ink={ink}
+        setInk={setInk}
+      />
+      <div className="flex">
+        <button className="clear-ink-button" onClick={() => {setInk([]); setResults([])}} >Clear</button>
+        <div className="handwriting-results">
+          {
+            results && results.map(item => {
+              return(
+                <button tabIndex={-1} onClick={handleButton} value={item} > {item} </button>
+              )
+            })
+          }
+        </div>
+      </div>
+      
     </div>
   )
 }

@@ -33,7 +33,6 @@ const ResultSelect = ({array, setSelected}) => {
     >
       { 
       sortArray(array).map((item, idx) => {
-        
         return(
           <option key={idx} value={idx}>
             {item.k_ele

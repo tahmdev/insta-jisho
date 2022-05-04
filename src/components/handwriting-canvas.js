@@ -1,12 +1,35 @@
 import { useEffect, useRef, useState } from "react"
 import useEventListener from "./useEventListener"
 
-const HandwritingCanvas = ({setInk, ink, w, h}) => {
+const HandwritingCanvas = ({w, h, setResults, ink, setInk}) => {
   let [active, setActive] = useState(false)
-  let [context, setContext] = useState()
   let [currentInput, setCurrentInput] = useState()
+
   const ref = useRef()
   let timer = useRef(null)
+
+
+  const lookUp = () => {
+    let data = JSON.stringify({
+      "options": "enable_pre_space",
+      "requests": [{
+          "writing_guide": {
+              "writing_area_width": w,
+              "writing_area_height": h,
+          },
+          "ink": ink,
+          "language": "ja"
+      }]
+    });
+    fetch("https://www.google.com.tw/inputtools/request?ime=handwriting&app=mobilesearch&cs=1&oe=UTF-8", {method: "POST", headers: {'Content-Type': 'application/json'}  ,body: data})
+    .then(res => res.json())
+    .then(json => {
+      // check if lookup was successful
+      if (json.length === 2){ 
+        setResults(json[1][0][1])
+      } 
+    })
+  }
 
   // Handle resize and stroke style
   useEffect(() => {
@@ -19,18 +42,19 @@ const HandwritingCanvas = ({setInk, ink, w, h}) => {
     context.strokeStyle = "#FFF"
   }, [w, h])
 
+  // Handle clear canvas and lookUp
   useEffect(() => {
     if (ink.length === 0) {
       let canvas = ref.current
       let context = canvas.getContext("2d")
-      context.clearRect(0, 0, canvas.width, canvas.height); 
+      context.clearRect(0, 0, canvas.width, canvas.height);
     }
+    else lookUp()
   }, [ink])
 
   const handleMouseDown = (e) => {
     const canvas = ref.current
     let context = canvas.getContext("2d")
-
     context.beginPath()
     let x = e.pageX - canvas.offsetLeft
     let y = e.pageY - canvas.offsetTop
@@ -48,7 +72,6 @@ const HandwritingCanvas = ({setInk, ink, w, h}) => {
 
       let x = e.pageX - canvas.offsetLeft
       let y = e.pageY - canvas.offsetTop
-      console.log(x, y)
       context.lineTo(x, y);
       context.stroke();
       if(!timer.current){
@@ -62,16 +85,24 @@ const HandwritingCanvas = ({setInk, ink, w, h}) => {
     }
   }
  
-  const handleMouseUp = (e) => {
+  const handleMouseUp = () => {
     // call getResults here after 500ms
     if(currentInput) setInk(prev => [...prev, currentInput])
     setCurrentInput()
     setActive(false)
   }
-  // https://stackoverflow.com/questions/16057256/draw-on-a-canvas-via-mouse-and-touch
+
+  const handleTouchStart = (e) => handleMouseDown(e.touches[0])
+  const handleTouchMove = (e) => {handleMove(e.touches[0]); e.preventDefault();}
+  const handleTouchEnd = (e) => handleMouseUp(e.touches[0])
+
   useEventListener("mousedown", handleMouseDown, ref)
   useEventListener("mousemove", handleMove, ref)
   useEventListener("mouseup", handleMouseUp, window)
+
+  useEventListener("touchstart", handleTouchStart, ref)
+  useEventListener("touchmove", handleTouchMove, ref)
+  useEventListener("touchend", handleTouchEnd, ref)
 
 
   return(
@@ -79,3 +110,6 @@ const HandwritingCanvas = ({setInk, ink, w, h}) => {
   )
 }
 export default HandwritingCanvas
+
+
+
