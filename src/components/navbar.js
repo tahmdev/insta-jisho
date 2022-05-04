@@ -1,11 +1,15 @@
+import { useEffect } from "react";
+
 const Navbar = ({setQuery, query ,setType, setShowRadicalInput, showRadicalInput}) => {
 
   const handleRadical = () => {
     if (showRadicalInput) {
-      //handles unmount via onTransitionEnd 
-      document.getElementById("radical-lookup-wrapper").style.transform = "translateY(-100%)"
+      document.getElementById("radical-lookup-wrapper").classList.add("slide-out-top")
+      setTimeout(() => {
+        setShowRadicalInput(false)
+      }, 300);
     }else{
-      return setShowRadicalInput(true)
+      setShowRadicalInput(true)
     }
   }
 

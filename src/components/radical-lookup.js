@@ -1,12 +1,8 @@
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import radicalData from "../radk.json"
 
 const RadicalLookup = ({setQuery}) => {
   let [selected, setSelected] = useState([])
-
-  useEffect(() => {
-    // Calculate Possible options 
-  }, [selected])
 
   const handleUpdateSelected = (e, value) => {
     console.log(value)
@@ -20,6 +16,7 @@ const RadicalLookup = ({setQuery}) => {
   }
 
   //takes an array of arrays and returns one array containing all mutual children
+  //by checking whether an item appears as many times as there are arrays
   const mutualChildren = (initArray) => {
     if (initArray.length > 1){
       const getAmount = (array, entry) => {
@@ -31,7 +28,8 @@ const RadicalLookup = ({setQuery}) => {
       }
   
       return (
-        [...removeDuplicates(initArray.map(item => removeDuplicates(item))
+        [...removeDuplicates(initArray
+          .map(item => removeDuplicates(item))
           .flat()
           .filter((item, idx, arr) => getAmount(arr, item) === initArray.length
           ))
@@ -86,7 +84,6 @@ const RadicalLookup = ({setQuery}) => {
           })
         }
       </div>
-      <button onClick={() => console.log(mutualChildren(selected))}> LOG </button>
     </div>
   )
 }
