@@ -1,7 +1,9 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
+import useEventListener from "./useEventListener"
 
-const ResultSelect = ({array, setSelected}) => {
-  
+const ResultSelect = ({results, setSelected, selected}) => {
+  const selectRef = useRef()
+  let controlDown = useRef()
   const sortArray = (array) => {
     array = array.sort((a, b) => {
       let aLength
@@ -23,16 +25,36 @@ const ResultSelect = ({array, setSelected}) => {
   }
   useEffect(() => {
     //send first results value on change
-    setSelected(sortArray(array)[0])
+    setSelected(sortArray(results)[0])
     //select first result on change
-    if(array.length) document.getElementById('result-select').getElementsByTagName('option')[0].selected = 'selected'
-  }, [array])
+    if(results.length) {
+      document.getElementById('result-select').getElementsByTagName('option')[0].selected = 'selected'
+    }
+  }, [results])
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Control") controlDown.current = true
+    if (e.key === "c" && controlDown.current) {
+      let query = selected.k_ele
+      ? selected.k_ele[0].keb
+      : selected.r_ele[0].reb
+      navigator.clipboard.writeText(`http://localhost:3000/?search=${query}&type=e`)
+    }
+  }
+  useEventListener("keydown", handleKeyDown, selectRef)
+
+  const handleKeyUp = (e) => {
+    if (e.key === "Control") controlDown.current = false
+  }
+  useEventListener("keyup", handleKeyUp, selectRef)
+  
   return(
     <select id="result-select" className='result-select' size={6} 
-      onChange={e => setSelected(sortArray(array)[e.target.value])}
+      onChange={e => setSelected(sortArray(results)[e.target.value])}
+      ref={selectRef}
     >
       { 
-      sortArray(array).map((item, idx) => {
+      sortArray(results).map((item, idx) => {
         return(
           <option key={idx} value={idx}>
             {item.k_ele
