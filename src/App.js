@@ -6,72 +6,119 @@ import RadicalLookup from './components/radical-lookup';
 import Navbar from './components/navbar';
 import HandwritingInput from './components/handwriting';
 
+// copy link button
+
 // Add kb controls 
-// slide in handwriting input 
 // Button that clears + focuses search bar
 // button that focuses select 
 // wasd on select
 
 function App() {
   let [query, setQuery] = useState("")
+  let [type, setType] = useState(() => {
+    let searchParams = new URLSearchParams(window.location.search)
+    if (searchParams.has("type")) {
+      let type = searchParams.get("type")
+      switch (type){
+        case "e":
+          return "Exact"
+          break;
+        case "i":
+          return "Includes"
+          break;
+        case "p":
+          return "Prefix"
+          break;
+        case "s":
+          return "Suffix"
+          break;
+        default:
+          return "Includes"
+          break;
+      }
+    }
+    else return "Includes"
+  })
   let [results, setResults] = useState()
   let [examples, setExamples] = useState()
-  let [type, setType] = useState("Includes")
   let [selected, setSelected] = useState()
   let [showInput, setShowInput] = useState("none")
-  let timeoutID = useRef()
-  
-  // fetch data on search update  
+  let queryTimeout = useRef()
+
+  // Fetch initial results and examples on search links
   useEffect(() => {
-    if(timeoutID.current) clearTimeout(timeoutID.current)
-    if (query.length > 0){
-      timeoutID.current = setTimeout(() => {
-        // fetch word definitions
-        fetch("http://localhost:9000/jisho/word/" + query)
+    let searchParams = new URLSearchParams(window.location.search)
+    if (searchParams.has("search")) {
+      let query = searchParams.get("search")
+      fetch("http://localhost:9000/jisho/word/" + query)
         .then(res => res.json())
         .then(json => setResults(json))
-        }, 50);
-        
-        //fetch examples sentences, limited to 20
+    
         fetch("http://localhost:9000/jisho/example/tatoeba/" + query)
         .then(res => res.json())
         .then(json => {
           setExamples(json.filter((item, idx) => idx < 20))
         })
     }
+  }, [])
+
+  // fetch data on search update  
+  useEffect(() => {
+    if(queryTimeout.current) clearTimeout(queryTimeout.current)
+    if (query.length > 0){
+      queryTimeout.current = setTimeout(() => {
+        // fetch word definitions
+        fetch("http://localhost:9000/jisho/word/" + query)
+        .then(res => res.json())
+        .then(json => setResults(json))
+      }, 300);
+        
+      //fetch examples sentences, limited to 20
+      fetch("http://localhost:9000/jisho/example/tatoeba/" + query)
+      .then(res => res.json())
+      .then(json => {
+        setExamples(json.filter((item, idx) => idx < 20))
+      })
+    }
   }, [query])
 
-  
   return (
     <div className="App">
       <Navbar 
         setQuery={setQuery}
         query={query}
         setType={setType}
+        type={type}
         setShowInput={setShowInput}
         showInput={showInput}
       />
 
-     {showInput === "radical" && 
-      <div id="radical-lookup-wrapper" className='container' >
-        <RadicalLookup setQuery={setQuery} showInput={showInput} />
-      </div>}
+      {showInput === "radical" && 
+        <div id="radical-lookup-wrapper" className='container' >
+          <RadicalLookup setQuery={setQuery} showInput={showInput} />
+        </div>
+      }
+
+      {showInput === "handwriting" && 
+        <div id="handwriting-wrapper">
+          <HandwritingInput 
+            vw={95} 
+            minWidth={200} 
+            maxWidth={450} 
+            height={300} 
+            language={"ja"}
+            handleButton={e => setQuery(prev => prev + e.target.value)}
+          />
+        </div>
+      }
       
-      <HandwritingInput 
-        vw={95} 
-        minWidth={200} 
-        maxWidth={450} 
-        height={300} 
-        language={"ja"}
-        handleButton={e => setQuery(prev => prev + e.target.value)}
-      />
 
       <main>
         <div className='container flex'>
           
           {
           results 
-            ? <ResultSelect array={results[type]} setSelected={setSelected} />  
+            ? <ResultSelect results={results[type]} setSelected={setSelected} selected={selected}/>  
             : <select className='result-select' size={2}></select>
           }
 
@@ -82,12 +129,16 @@ function App() {
               <DefinitionDisplay selected={selected} />
             </div>
             
+            {examples &&
             <div className='example-wrapper'>
               <ul>
                 {examples.map(item => <li> {item.text} </li>)}
               </ul>
             </div>
-          </div>}
+            }
+
+          </div>
+          }
         </div>
       </main>
         
