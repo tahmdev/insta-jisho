@@ -79,7 +79,6 @@ const RadicalLookup = ({setQuery}) => {
                   className="radical-checkbox" 
                   type="checkbox"
                   id={key}
-                  value={radicalData[key]}
                   onChange={e => handleUpdateSelected(e, radicalData[key].kanji)} 
                 />
                 <label  

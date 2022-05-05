@@ -27,7 +27,7 @@ const HandwritingInput = ({width, height, maxHeight, maxWidth, minHeight, minWid
   useEventListener("resize", handleResize, window, vw !== undefined || vh !== undefined)
 
   return(
-    <div id="handwriting-wrapper">
+    <div className="handwriting">
       <HandwritingCanvas 
         w={widthRes || width} 
         h={heightRes || height}
