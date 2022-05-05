@@ -1,24 +1,29 @@
-import { useEffect } from "react";
+const Navbar = ({setQuery, query ,setType, type, setShowInput, showInput}) => {
 
-const Navbar = ({setQuery, query ,setType, setShowInput, showInput}) => {
-
-  const handleRadical = () => {
-    console.log(showInput)
-    if (showInput === "radical") {
-      document.getElementById("radical-lookup-wrapper").classList.add("slide-out-top")
+  const slideElementInOut = (showName, id, setShow, condition) => {
+    if (condition) {
+      document.getElementById(id).classList.add("slide-out-top")
       setTimeout(() => {
-        setShowInput("none")
+        setShow(null)
       }, 200);
     }else{
-      setShowInput("radical")
+      setShow(showName)
     }
   }
 
+  const handleRadical = () => {
+    slideElementInOut("radical", "radical-lookup-wrapper", setShowInput, showInput === "radical")
+  }
+
+  const handleHandwriting = () => {
+    slideElementInOut("handwriting", "handwriting-wrapper", setShowInput, showInput === "handwriting")
+  }
   return(
     <nav className='flex-center'>
       <button onClick={handleRadical} > Radical </button>
+      <button onClick={handleHandwriting}>Handwriting</button>
       <input onChange={e => setQuery(e.target.value)} value={query} />
-      <select onChange={e => setType(e.target.value)}>
+      <select onChange={e => setType(e.target.value)} value={type}>
         <option>Includes</option>
         <option>Exact</option>  
         <option>Prefix</option>  
