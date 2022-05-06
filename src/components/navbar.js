@@ -20,10 +20,10 @@ const Navbar = ({setQuery, query ,setType, type, setShowInput, showInput}) => {
   }
   return(
     <nav className='flex-center'>
-      <button onClick={handleRadical} > Radical </button>
-      <button onClick={handleHandwriting}>Handwriting</button>
+      <button tabIndex={-1} onClick={handleRadical} > Radical </button>
+      <button tabIndex={-1} onClick={handleHandwriting}>Handwriting</button>
       <input onChange={e => setQuery(e.target.value)} value={query} />
-      <select onChange={e => setType(e.target.value)} value={type}>
+      <select tabIndex={-1} onChange={e => setType(e.target.value)} value={type}>
         <option>Includes</option>
         <option>Exact</option>  
         <option>Prefix</option>  

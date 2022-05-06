@@ -16,6 +16,11 @@ const RadicalLookup = ({setQuery}) => {
     })
   }
 
+  const handleReset = () => {
+    setSelected([])
+    document.querySelectorAll("input[type=checkbox]").forEach(element => element.checked = false)
+  }
+
   useEffect(() => {
     setMutualChildren(getMutualChildren(selected))
   }, [selected])
@@ -64,7 +69,9 @@ const RadicalLookup = ({setQuery}) => {
       </div>
 
       <div className="radical-input">
+        <button onClick={handleReset} >reset</button>
         {
+          
           Object.keys(radicalData).map((key, idx, arr) => {
             // render stroke count if previous stroke count < new stroke count
             const renderStrokeCount = idx === 0 || radicalData[key].strokes !== radicalData[arr[idx-1]].strokes

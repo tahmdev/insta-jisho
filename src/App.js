@@ -6,13 +6,9 @@ import RadicalLookup from './components/radical-lookup';
 import Navbar from './components/navbar';
 import HandwritingInput from './components/handwriting';
 
-// copy link button
-
-// Add kb controls 
-// Button that clears + focuses search bar
-// button that focuses select 
 // wasd on select
-
+// After 10 seconds of inactivity: select query input & add to history
+// Add e => j search, check if no japanese characters && length > 1
 function App() {
   let [query, setQuery] = useState("")
   let [type, setType] = useState(() => {
