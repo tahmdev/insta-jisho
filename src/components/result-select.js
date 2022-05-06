@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import useEventListener from "./useEventListener"
 
 const ResultSelect = ({results, setSelected, selected}) => {
   const selectRef = useRef()
   let controlDown = useRef()
+  let [selectedIndex, setSelectedIndex] = useState(0)
   const sortArray = (array) => {
     array = array.sort((a, b) => {
       let aLength
@@ -24,13 +25,24 @@ const ResultSelect = ({results, setSelected, selected}) => {
     })
   }
   useEffect(() => {
-    //send first results value on change
+    //display definition of top result when results change
     setSelected(sortArray(results)[0])
-    //select first result on change
+    
+    //select top result when results change
     if(results.length) {
       document.getElementById('result-select').getElementsByTagName('option')[0].selected = 'selected'
     }
   }, [results])
+
+  useEffect(() => {
+    // display definition of selected option
+    setSelected(sortArray(results)[selectedIndex])
+
+    // select correct item, allows for WASD controls
+    if(results.length) {
+      document.getElementById('result-select').getElementsByTagName('option')[selectedIndex].selected = 'selected'
+    }
+  }, [selectedIndex])
 
   const handleKeyDown = (e) => {
     if (e.key === "Control") controlDown.current = true
@@ -40,6 +52,23 @@ const ResultSelect = ({results, setSelected, selected}) => {
       : selected.r_ele[0].reb
       navigator.clipboard.writeText(`http://localhost:3000/?search=${query}&type=e`)
     }
+
+    if(e.key === "s"){
+      if(selectedIndex + 1 >= results.length) setSelectedIndex(0)
+      else setSelectedIndex(prev => prev += 1)
+    }
+    if(e.key === "w"){
+      if(selectedIndex - 1 < 0) setSelectedIndex(results.length -1)
+      else setSelectedIndex(prev => prev -= 1)
+    }
+    if(e.key === "d"){
+      if(selectedIndex + 5 >= results.length) setSelectedIndex(results.length -1)
+      else setSelectedIndex(prev => prev += 5)
+    }
+    if(e.key === "a"){
+      if(selectedIndex - 5 < 0) setSelectedIndex(0)
+      else setSelectedIndex(prev => prev -= 5)
+    }
   }
   useEventListener("keydown", handleKeyDown, selectRef)
 
@@ -47,10 +76,10 @@ const ResultSelect = ({results, setSelected, selected}) => {
     if (e.key === "Control") controlDown.current = false
   }
   useEventListener("keyup", handleKeyUp, selectRef)
-  
+
   return(
     <select id="result-select" className='result-select' size={6} 
-      onChange={e => setSelected(sortArray(results)[e.target.value])}
+      onChange={e => setSelectedIndex(parseInt(e.target.value))}
       ref={selectRef}
     >
       { 

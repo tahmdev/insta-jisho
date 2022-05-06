@@ -5,9 +5,9 @@ import DefinitionDisplay from './components/definition-display';
 import RadicalLookup from './components/radical-lookup';
 import Navbar from './components/navbar';
 import HandwritingInput from './components/handwriting';
+import useEventListener from './components/useEventListener';
 
 // wasd on select
-// After 10 seconds of inactivity: select query input & add to history
 // romaji query, if exact match found parse as JP 
 function App() {
   let [query, setQuery] = useState("")
@@ -40,7 +40,7 @@ function App() {
   let [selected, setSelected] = useState()
   let [showInput, setShowInput] = useState("none")
   let queryTimeout = useRef()
-
+  let idleTimeout = useRef()
   // Fetch initial results and examples on search links
   useEffect(() => {
     let searchParams = new URLSearchParams(window.location.search)
@@ -68,17 +68,25 @@ function App() {
         .then(res => res.json())
         .then(json => setResults(json))
 
+        //fetch examples sentences, limited to 20
         fetch("http://localhost:9000/jisho/example/tatoeba/" + query)
         .then(res => res.json())
         .then(json => {
           setExamples(json.filter((item, idx) => idx < 20))
         })
       }, 200);
-        
-      //fetch examples sentences, limited to 20
-      
     }
   }, [query])
+
+  const resetIdleTimer = () => {
+    clearTimeout(idleTimeout.current)
+    // reset query after inactivity
+    idleTimeout.current = setTimeout(() => {
+      setQuery("")
+    }, 10000);
+  }
+  useEventListener("keydown", resetIdleTimer, window)
+  useEventListener("mousedown", resetIdleTimer, window)
 
   return (
     <div className="App">
