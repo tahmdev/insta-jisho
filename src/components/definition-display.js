@@ -145,6 +145,21 @@ const DefinitionDisplay = ({selected}) => {
           })
         }
       </ol>
+      {selected.k_ele && selected.k_ele.length > 1 &&
+        <div>
+          <p>Other forms:</p> 
+          <div className="other-forms">
+            {
+              selected.k_ele.map((item, idx) => {
+                console.log(selected)
+                if(idx !== 0){
+                  return item.keb
+                }
+              })
+            }
+          </div>
+        </div>
+      }
     </div>
   )
 }
