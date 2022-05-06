@@ -124,9 +124,12 @@ const DefinitionDisplay = ({selected}) => {
   return(
     <div className='definition-wrapper'>
       <h1>
-        <ruby>
-          {selected.k_ele[0].keb} <rp>(</rp><rt>{selected.r_ele[0].reb}</rt><rp>)</rp>
-        </ruby>
+        {selected.k_ele 
+          ?<ruby>
+            {selected.k_ele[0].keb} <rp>(</rp><rt>{selected.r_ele[0].reb}</rt><rp>)</rp>
+          </ruby>
+          : <span> {selected.r_ele[0].reb} </span>
+        }
       </h1>
       <ol>
         {

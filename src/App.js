@@ -8,7 +8,7 @@ import HandwritingInput from './components/handwriting';
 
 // wasd on select
 // After 10 seconds of inactivity: select query input & add to history
-// Add e => j search, check if no japanese characters && length > 1
+// romaji query, if exact match found parse as JP 
 function App() {
   let [query, setQuery] = useState("")
   let [type, setType] = useState(() => {
@@ -67,14 +67,16 @@ function App() {
         fetch("http://localhost:9000/jisho/word/" + query)
         .then(res => res.json())
         .then(json => setResults(json))
-      }, 300);
+
+        fetch("http://localhost:9000/jisho/example/tatoeba/" + query)
+        .then(res => res.json())
+        .then(json => {
+          setExamples(json.filter((item, idx) => idx < 20))
+        })
+      }, 200);
         
       //fetch examples sentences, limited to 20
-      fetch("http://localhost:9000/jisho/example/tatoeba/" + query)
-      .then(res => res.json())
-      .then(json => {
-        setExamples(json.filter((item, idx) => idx < 20))
-      })
+      
     }
   }, [query])
 
