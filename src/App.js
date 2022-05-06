@@ -6,8 +6,8 @@ import RadicalLookup from './components/radical-lookup';
 import Navbar from './components/navbar';
 import HandwritingInput from './components/handwriting';
 import useEventListener from './components/useEventListener';
+import Popup from './components/popup';
 
-// wasd on select
 // romaji query, if exact match found parse as JP 
 function App() {
   let [query, setQuery] = useState("")
@@ -37,8 +37,10 @@ function App() {
   })
   let [results, setResults] = useState()
   let [examples, setExamples] = useState()
+  let [showExamples, setShowExamples] = useState(false)
   let [selected, setSelected] = useState()
   let [showInput, setShowInput] = useState("none")
+  let [showAbout, setShowAbout] = useState(false)
   let queryTimeout = useRef()
   let idleTimeout = useRef()
   // Fetch initial results and examples on search links
@@ -46,15 +48,7 @@ function App() {
     let searchParams = new URLSearchParams(window.location.search)
     if (searchParams.has("search")) {
       let query = searchParams.get("search")
-      fetch("http://localhost:9000/jisho/word/" + query)
-        .then(res => res.json())
-        .then(json => setResults(json))
-    
-        fetch("http://localhost:9000/jisho/example/tatoeba/" + query)
-        .then(res => res.json())
-        .then(json => {
-          setExamples(json.filter((item, idx) => idx < 20))
-        })
+      fetchData(query)
     }
   }, [])
 
@@ -63,20 +57,24 @@ function App() {
     if(queryTimeout.current) clearTimeout(queryTimeout.current)
     if (query.length > 0){
       queryTimeout.current = setTimeout(() => {
-        // fetch word definitions
-        fetch("http://localhost:9000/jisho/word/" + query)
-        .then(res => res.json())
-        .then(json => setResults(json))
-
-        //fetch examples sentences, limited to 20
-        fetch("http://localhost:9000/jisho/example/tatoeba/" + query)
-        .then(res => res.json())
-        .then(json => {
-          setExamples(json.filter((item, idx) => idx < 20))
-        })
+        fetchData(query)
       }, 200);
     }
   }, [query])
+
+  const fetchData = (query) => {
+    // fetch word definitions
+    fetch("http://192.168.178.22:9000/jisho/word/" + query)
+    .then(res => res.json())
+    .then(json => setResults(json))
+
+    //fetch examples sentences, limited to 15
+    fetch("http://192.168.178.22:9000/jisho/example/tatoeba/" + query)
+    .then(res => res.json())
+    .then(json => {
+      setExamples(json.filter((item, idx) => idx < 15))
+    })
+  }
 
   const resetIdleTimer = () => {
     clearTimeout(idleTimeout.current)
@@ -85,11 +83,33 @@ function App() {
       setQuery("")
     }, 10000);
   }
-  useEventListener("keydown", resetIdleTimer, window)
+  
+  const handleKeyDown = (e) => {
+    resetIdleTimer()
+    if (e.key === "Tab"){
+      e.preventDefault()
+      let active = document.activeElement
+      if (active === document.getElementById("search")){
+        document.getElementById("result-select").focus()
+      }else{
+        document.getElementById("search").focus()
+      }
+    }
+  }
+  useEventListener("keydown", handleKeyDown, window)
   useEventListener("mousedown", resetIdleTimer, window)
-
   return (
     <div className="App">
+      {showAbout&&
+        <Popup
+          classes={"aboutPopup"}
+          setShow={setShowAbout}
+        >
+          <span>
+            ABOUT HERE
+          </span>
+        </Popup>
+      }
       <Navbar 
         setQuery={setQuery}
         query={query}
@@ -97,6 +117,9 @@ function App() {
         type={type}
         setShowInput={setShowInput}
         showInput={showInput}
+        setShowAbout={setShowAbout}
+        setShowExamples={setShowExamples}
+        showExamples={showExamples}
       />
 
       {showInput === "radical" && 
@@ -117,7 +140,6 @@ function App() {
           />
         </div>
       }
-      
 
       <main>
         <div className='container flex'>
@@ -131,12 +153,12 @@ function App() {
           {selected && 
           <div className='container flex'>
             
-            <div className='definition-wrapper'>
+            <div className={`definition-wrapper ${showExamples ? "large-only" : ""}`}>
               <DefinitionDisplay selected={selected} />
             </div>
             
             {examples &&
-            <div className='example-wrapper'>
+            <div className={`example-wrapper ${showExamples ? "visible" : "large-only"}`}>
               <ul>
                 {examples.map(item => <li> {item.text} </li>)}
               </ul>
@@ -145,6 +167,7 @@ function App() {
 
           </div>
           }
+          
         </div>
       </main>
         

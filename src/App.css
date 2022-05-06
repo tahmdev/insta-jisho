@@ -9,17 +9,17 @@ html, body, #root, .App {
 .App{
   display: flex;
   flex-direction: column;
-  background-color: orange;
+  background-color: black;
 }
 main{
   height: 100%;
 }
-/* Utility classes start*/
 
+
+/* Utility classes */
 .container{
   margin: 0 auto;
   width: min(95vw, 1400px);
-  background-color: red;
   height: 100%;
   margin-bottom: 1rem ;
 }
@@ -27,32 +27,107 @@ main{
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 .flex{
   display: flex;
   transition: all, 200ms, ease-in-out;
-  background-color: aqua;
+  flex-direction: column;
 }
-
-/* Utility classes end */
-
-.definition-wrapper{
-  width: 100%;
+@media (min-width: 700px){
+  .flex{
+    flex-direction: row;
+  }
 }
-.kanji-and-examples{
-  width: 50%;
+.large-only{
+  display: none;
 }
-
-.result-select{
-  height: 90vh;
-  overflow-y: scroll;
-  font-size: 1rem;
-  width: 12rem;
+@media (min-width: 1000px){
+  .large-only{
+    display: initial;
+  }
+  .small-only{
+    display: none;
+  }
 }
+.visible{
+  display: initial !important;
+}
+/* navbar */
 nav {
   background-color: green;
   z-index: 20;
 }
+
+
+/* Definition display */
+.definition-wrapper{
+  width: 100%;
+}
+.definition-wrapper h1{
+  margin: 1rem 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.466);
+}
+.definition-wrapper ol{
+  margin: 0;
+  padding: 0 1.5rem;
+}
+.pos{
+  font-weight: 100;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.63);
+}
+.definition-wrapper li{
+  font-size: 1.15rem;
+  margin-bottom: 0.8rem;
+}
+
+/* result select */
+.result-select{
+  height: 2rem;
+  overflow-y: scroll;
+  font-size: 1rem;
+  width: 12rem;
+  margin: auto;
+}
+@media (min-width: 700px){
+  .result-select{
+    height: 100%;
+    overflow-y: scroll;
+    font-size: 1rem;
+    width: 12rem;
+    margin: auto;
+  }
+}
+
+
+/* Examples */
+.example-wrapper{
+  display: none;
+}
+.example-wrapper ul {
+  list-style: none;
+  margin: 2rem 0;
+  padding: 0;
+}
+.example-wrapper li {
+  padding: 0.5rem 0.7rem;
+  border: 1px solid white;
+  border-top: none;
+}
+.example-wrapper li:nth-child(odd) {
+  background-color: rgb(32, 32, 32);
+}
+.example-wrapper li:nth-child(1) {
+  border-top: 1px solid white;
+}
+@media (min-width: 1000px){
+  .example-wrapper{
+    display: initial;
+  }
+}
+
 
 /*Radical input*/
 .radical-input > * {
@@ -116,8 +191,8 @@ nav {
   }
 }
 
-/* Handwriting Input*/
 
+/* Handwriting Input*/
 .handwriting{
   display: flex;
   justify-content: center;
@@ -138,4 +213,37 @@ nav {
 }
 .clear-ink-button{
   margin-right: 2rem;
+}
+
+
+/* Popup */
+.close-popup{
+  position: absolute;
+  padding: 1rem 0.7rem;
+  right: 1rem;
+  background-color: transparent;
+  border: none; 
+  font-size: 1.5rem;
+  top: 0;
+}
+.popup-bg{
+  z-index: 31;
+  background-color: rgba(0, 0, 0, 0.363);
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw !important;
+  max-height: 100vh!important;
+  margin: 0 !important;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 50%;
+}
+.aboutPopup{
+  width: min(100%, 600px);
+  height: 50%;
+  margin: 2rem auto;
+  background-color: white;
+  position: relative;
+  max-width: 800px;
 }

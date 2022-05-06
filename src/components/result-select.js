@@ -6,7 +6,16 @@ const ResultSelect = ({results, setSelected, selected}) => {
   let controlDown = useRef()
   let [selectedIndex, setSelectedIndex] = useState(0)
   const sortArray = (array) => {
+
+    //sort by common word
     array = array.sort((a, b) => {
+      if (a.r_ele[0].re_pri && !b.r_ele[0].re_pri) return -1
+      if (!a.r_ele[0].re_pri && b.r_ele[0].re_pri) return 1
+      return 0
+    })
+    
+    //sort by length
+    return array = array.sort((a, b) => {
       let aLength
       let bLength
       if (a.k_ele) aLength = a.k_ele[0].keb[0].length
@@ -16,21 +25,15 @@ const ResultSelect = ({results, setSelected, selected}) => {
       return aLength - bLength
     })
   
-    // sort by common word
-    return array.sort((a, b) => {
-      if (a.r_ele[0].re_pri && !b.r_ele[0].re_pri) return -1
-      if (!a.r_ele[0].re_pri && b.r_ele[0].re_pri) return 1
-      return 0
-
-    })
   }
+
   useEffect(() => {
     //display definition of top result when results change
     setSelected(sortArray(results)[0])
     
     //select top result when results change
     if(results.length) {
-      document.getElementById('result-select').getElementsByTagName('option')[0].selected = 'selected'
+      setSelectedIndex(0)
     }
   }, [results])
 
@@ -70,11 +73,12 @@ const ResultSelect = ({results, setSelected, selected}) => {
       else setSelectedIndex(prev => prev -= 5)
     }
   }
-  useEventListener("keydown", handleKeyDown, selectRef)
-
+  
   const handleKeyUp = (e) => {
     if (e.key === "Control") controlDown.current = false
   }
+  
+  useEventListener("keydown", handleKeyDown, selectRef)
   useEventListener("keyup", handleKeyUp, selectRef)
 
   return(
