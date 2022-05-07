@@ -8,7 +8,13 @@ import HandwritingInput from './components/handwriting';
 import useEventListener from './components/useEventListener';
 import Popup from './components/popup';
 
-// romaji query, if exact match found parse as JP 
+// style examples/definition switch 
+// style handwriting
+// style about button
+// about info
+// sort radical results by stroke count
+// include forvo link somewhere
+
 function App() {
   let [query, setQuery] = useState("")
   let [type, setType] = useState(() => {
@@ -43,6 +49,7 @@ function App() {
   let [showAbout, setShowAbout] = useState(false)
   let queryTimeout = useRef()
   let idleTimeout = useRef()
+  
   // Fetch initial results and examples on search links
   useEffect(() => {
     let searchParams = new URLSearchParams(window.location.search)
@@ -75,6 +82,19 @@ function App() {
       setExamples(json.filter((item, idx) => idx < 15))
     })
   }
+
+  useEffect(() => {
+    if(selected){
+      let query = selected.k_ele
+      ? selected.k_ele[0].keb[0]
+      : selected.r_ele[0].reb[0]
+      fetch("http://192.168.178.22:9000/jisho/example/tatoeba/" + query)
+      .then(res => res.json())
+      .then(json => {
+        setExamples(json.filter((item, idx) => idx < 15))
+      })
+    }
+  }, [selected])
 
   const resetIdleTimer = () => {
     clearTimeout(idleTimeout.current)
@@ -136,6 +156,7 @@ function App() {
             maxWidth={450} 
             height={300} 
             language={"ja"}
+            options={{color: "#3D86F0"}}
             handleButton={e => setQuery(prev => prev + e.target.value)}
           />
         </div>
@@ -145,9 +166,8 @@ function App() {
         <div className='container flex'>
           
           {
-          results 
-            ? <ResultSelect results={results[type]} setSelected={setSelected} selected={selected}/>  
-            : <select className='result-select' size={2}></select>
+          results &&
+            <ResultSelect results={results[type]} setSelected={setSelected} selected={selected}/>  
           }
 
           {selected && 
@@ -167,7 +187,7 @@ function App() {
 
           </div>
           }
-          
+
         </div>
       </main>
         
