@@ -1,6 +1,6 @@
 html {overflow-y: scroll; }
 html, body, #root, .App {
-  background-color: pink;
+  background-color: black;
   color: white;
   margin: 0;
   padding: 0;
@@ -29,6 +29,9 @@ main{
   align-items: center;
   flex-direction: column;
 }
+.flex-center > * + *{
+  margin-left: 0.7rem;
+}
 .flex{
   display: flex;
   transition: all, 200ms, ease-in-out;
@@ -36,6 +39,9 @@ main{
 }
 @media (min-width: 700px){
   .flex{
+    flex-direction: row;
+  }
+  .flex-center{
     flex-direction: row;
   }
 }
@@ -53,16 +59,65 @@ main{
 .visible{
   display: initial !important;
 }
+
+
 /* navbar */
 nav {
   background-color: green;
   z-index: 20;
+  padding: 1rem 0;
+}
+#search{
+  border: none;
+  outline: none;
+  max-height: 100%;
+  font-size: 1rem;
+  height: 30px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.search-select-wrapper{
+  display: flex;
+}
+.search-select-wrapper > select{
+  outline: none;
+  border: none;
+  height: 100%;
+  padding: 0.5rem;
+  height: 32px;
+  margin-right: 1px;
+  margin-bottom: 1px;
+  border-left: 1px solid rgba(128, 128, 128, 0.377);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.search-select-wrapper > select:hover{
+  cursor: pointer;
+}
+.input-method-button{
+  color: white;
+  font-size: 1.4rem;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  transition: all 100ms ease; 
+  margin-bottom: 0.5rem;
+}
+@media (hover: hover) and (pointer: fine) {
+  .input-method-button:hover{
+    cursor: pointer;
+    background-color: white;
+    color: black;
+  }
+}
+.button-desc{
+  font-size: 0.8rem;
 }
 
 
 /* Definition display */
 .definition-wrapper{
-  width: 100%;
+  flex-basis: 100%;
 }
 .definition-wrapper h1{
   margin: 1rem 0.5rem;
@@ -77,6 +132,7 @@ nav {
   font-weight: 100;
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.63);
+  line-height: 1.2rem;
 }
 .definition-wrapper li{
   font-size: 1.15rem;
@@ -105,6 +161,7 @@ nav {
 /* Examples */
 .example-wrapper{
   display: none;
+  flex-basis: 70%;
 }
 .example-wrapper ul {
   list-style: none;
@@ -130,6 +187,30 @@ nav {
 
 
 /*Radical input*/
+#radical-lookup-wrapper{
+  transition: max-height 200ms ease-in-out;
+  animation-name: slide-in-top;
+  overflow: hidden;
+  animation-duration: 250ms;
+  animation-timing-function: ease-out;
+  background-color: grey;
+  padding: 0.6rem;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  font-size: 1.3rem;
+}
+.radical-input{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(31px, 1fr));
+}
+.radical-input > span{
+  width: 100%;
+}
+.reset-button{
+  grid-column: 1 / 3;
+  width: 100%;
+  padding: 0;
+}
 .radical-input > * {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -140,34 +221,44 @@ nav {
 }
 .radical-button{
   display: inline-block;
+  color: greenyellow;
 }
-
+.radical-button > label{
+  width: 100%;
+  height: 100%;
+}
 .radical-button :checked + label{
   color: black !important;
   background-color: white;
-}
-.radical-checkbox{
-  display: none;
-}
-.radical-select{
-  height: 200px;
-  overflow: auto;
-  margin-bottom: 2rem;
-}
-#radical-lookup-wrapper{
-  transition: max-height 200ms ease-in-out;
-  animation-name: slide-in-top;
-  overflow: hidden;
-  animation-duration: 250ms;
-  animation-timing-function: ease-out;
 }
 .enabled-radical:hover{
   cursor: pointer;
 }
 .disabled-radical{
-  color: grey;
+  opacity: 0.2;
   pointer-events: none;
 }
+.radical-checkbox{
+  display: none;
+}
+/*radical select*/
+.radical-select{
+  background-color: black;
+  height: 200px;
+  overflow: auto;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(31px, 1fr));
+  grid-template-rows: repeat(auto-fill, 31px);
+}
+.radical-select > button {
+  color: greenyellow;
+  font-size: 1.3rem;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
 @keyframes slide-in-top{
   from{
     max-height: 0;
@@ -178,7 +269,7 @@ nav {
 }
 .slide-out-top{
   animation-name: slide-out-top !important;
-  animation-duration: 300ms;
+  animation-duration: 200ms;
   animation-timing-function: ease;
   animation-fill-mode: forwards;
 }
@@ -190,10 +281,27 @@ nav {
     max-height: 0;
   }
 }
-
+/* Canvas needs translateY to move for some reason */
+.slide-out-top-canvas{
+  animation-name: slide-out-top-canvas !important;
+  animation-duration: 200ms;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+@keyframes slide-out-top-canvas{
+  from{
+    max-height: 550px;
+    transform: translateY(0);
+  }
+  to{
+    max-height: 0;
+    transform: translateY(-550px);
+  }
+}
 
 /* Handwriting Input*/
 .handwriting{
+  background-color: red;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -208,7 +316,7 @@ nav {
   font-size: 2rem;
 }
 .handwriting-canvas{
-  background-color: black;
+  background-color: white;
   overflow: hidden;
 }
 .clear-ink-button{

@@ -69,7 +69,7 @@ const RadicalLookup = ({setQuery}) => {
       </div>
 
       <div className="radical-input">
-        <button onClick={handleReset} >reset</button>
+        <button className="reset-button" onClick={handleReset} >reset</button>
         {
           
           Object.keys(radicalData).map((key, idx, arr) => {
@@ -78,7 +78,7 @@ const RadicalLookup = ({setQuery}) => {
             
             return(
               <>
-              {renderStrokeCount && <span> {radicalData[key].strokes} </span>}
+              {renderStrokeCount && <span className="flex-center"> {radicalData[key].strokes} </span>}
 
               <div className="radical-button" >
 
@@ -90,7 +90,7 @@ const RadicalLookup = ({setQuery}) => {
                 />
                 <label  
                 htmlFor={key} 
-                className={`${enabled.includes(key) ? "enabled-radical" : "disabled-radical"}`}
+                className={`${enabled.includes(key) ? "enabled-radical" : "disabled-radical"} flex-center`}
                 > 
                   {key}
                 </label>
