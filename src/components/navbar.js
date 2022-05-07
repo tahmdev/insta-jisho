@@ -1,33 +1,58 @@
 const Navbar = ({setQuery, query ,setType, type, setShowInput, showInput, setShowAbout, showExamples, setShowExamples}) => {
 
-  const slideElementInOut = (showName, id, setShow, condition) => {
-    if (condition) {
-      document.getElementById(id).classList.add("slide-out-top")
-      setTimeout(() => {
-        setShow(null)
-      }, 200);
+  const handleRadical = () => {
+    if (showInput=== "radical") {
+      let element = document.getElementById("radical-lookup-wrapper")
+      element.classList.add("slide-out-top")
+      element.onanimationend = () => setShowInput(null)
     }else{
-      setShow(showName)
+      setShowInput("radical")
     }
   }
 
-  const handleRadical = () => {
-    slideElementInOut("radical", "radical-lookup-wrapper", setShowInput, showInput === "radical")
+  const handleHandwriting = () => {
+    if (showInput === "handwriting") {
+      let element = document.getElementById("handwriting-wrapper")
+      element.classList.add("slide-out-top-canvas")
+      element.onanimationend = () => setShowInput(null)
+    }else{
+      setShowInput("handwriting")
+    }
   }
 
-  const handleHandwriting = () => {
-    slideElementInOut("handwriting", "handwriting-wrapper", setShowInput, showInput === "handwriting")
-  }
+  const activeStyle = (condition) => {
+    if(condition){
+      return (
+        {
+          borderBottom: "4px solid orange",
+          marginBottom: "-4px"
+        }
+      )
+    }
+  } 
   return(
     <nav className='flex-center'>
-      <button onClick={() => setShowAbout(true)} >About</button>
+      
       <div>
+        <button className="input-method-button" 
+          onClick={handleRadical} 
+          style={activeStyle(showInput === "radical")}
+        >
+          <div>部</div>
+          <div className="button-desc">Radical</div>
+        </button>
+        <button className="input-method-button" 
+          onClick={handleHandwriting}
+          style={activeStyle(showInput === "handwriting")}  
+        >
+          <div>✏️</div>
+          <div className="button-desc">Draw</div>
+        </button>
         <button className="small-only" onClick={() => setShowExamples(prev => !prev)}> {showExamples ? "Definition" : "Examples"} </button>
-        <button tabIndex={-1} onClick={handleRadical} > Radical </button>
-        <button tabIndex={-1} onClick={handleHandwriting}>Handwriting</button>
       </div>
-      <div>
-        <input id="search" onChange={e => setQuery(e.target.value)} value={query} />
+
+      <div className="search-select-wrapper">
+        <input id="search" onChange={e => setQuery(e.target.value)} value={query} autoComplete="off" />
         <select tabIndex={-1} onChange={e => setType(e.target.value)} value={type}>
           <option>Includes</option>
           <option>Exact</option>  
@@ -35,7 +60,8 @@ const Navbar = ({setQuery, query ,setType, type, setShowInput, showInput, setSho
           <option>Suffix</option>  
         </select>
       </div>
-      
+      <button onClick={() => setShowAbout(true)} >About</button>
+
     </nav>
   )
 }
