@@ -151,7 +151,6 @@ const DefinitionDisplay = ({selected}) => {
           <div className="other-forms">
             {
               selected.k_ele.map((item, idx) => {
-                console.log(selected)
                 if(idx !== 0){
                   return item.keb
                 }
