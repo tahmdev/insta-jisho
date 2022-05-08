@@ -9,8 +9,9 @@ import useEventListener from './components/useEventListener';
 import Popup from './components/popup';
 
 // style examples/definition switch 
-// style handwriting
 // style about button
+// style other forms
+// style result select
 // about info
 // sort radical results by stroke count
 // include forvo link somewhere
@@ -154,7 +155,8 @@ function App() {
             vw={95} 
             minWidth={200} 
             maxWidth={450} 
-            height={300} 
+            vh={40}
+            maxHeight={300}
             language={"ja"}
             options={{color: "#3D86F0"}}
             handleButton={e => setQuery(prev => prev + e.target.value)}
@@ -171,7 +173,7 @@ function App() {
           }
 
           {selected && 
-          <div className='container flex'>
+          <div className='container flex definition-example-wrapper'>
             
             <div className={`definition-wrapper ${showExamples ? "large-only" : ""}`}>
               <DefinitionDisplay selected={selected} />
