@@ -17,7 +17,7 @@ const HandwritingInput = ({width, height, maxHeight, maxWidth, minHeight, minWid
   
   let [results, setResults] = useState()
   let [widthRes, setWidthRes] = useState(minMax(percentOf(vw, window.screen.width), minWidth || -Infinity, maxWidth || Infinity))
-  let [heightRes, setHeightRes] = useState(minMax(percentOf(vh, window.screen.width), minWidth || -Infinity, maxWidth || Infinity))
+  let [heightRes, setHeightRes] = useState(minMax(percentOf(vh, window.screen.height), minWidth || -Infinity, maxWidth || Infinity))
   let [ink, setInk] = useState([])
 
   const handleResize = () => {
@@ -37,7 +37,7 @@ const HandwritingInput = ({width, height, maxHeight, maxWidth, minHeight, minWid
         setInk={setInk}
         options={options}
       />
-      <div className="flex">
+      <div className="handwriting-results-wrapper">
         <button className="clear-ink-button" onClick={() => {setInk([]); setResults([])}} >Clear</button>
         <div className="handwriting-results">
           {
