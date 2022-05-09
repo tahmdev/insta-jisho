@@ -8,13 +8,11 @@ import HandwritingInput from './components/handwriting';
 import useEventListener from './components/useEventListener';
 import Popup from './components/popup';
 
-// style examples/definition switch 
-// style about button
 // style other forms
-// style result select
 // about info
 // sort radical results by stroke count
 // include forvo link somewhere
+// fix select appearing with no results
 
 function App() {
   let [query, setQuery] = useState("")
@@ -173,7 +171,7 @@ function App() {
           }
 
           {selected && 
-          <div className='container flex definition-example-wrapper'>
+          <div className='container flex'>
             
             <div className={`definition-wrapper ${showExamples ? "large-only" : ""}`}>
               <DefinitionDisplay selected={selected} />
