@@ -1,3 +1,15 @@
+# Goal of this project
+Creating an alternative to Jisho.org that is more focused on reducing the amount of time it takes to look something up. I achieved this by:
+- Automatic lookups
+- Using a scrollable list of results instead of pagination
+- Using Google's handwriting recognition
+- Using a select element to filter results
+
+## Stuff I learned
+I changed my workflow to focus on functionality first and then style the app at the end, this greatly reduces the amount of time I spend having to go back to fix style issues after adding new elements. It also results in a much cleaner CSS file. 
+
+I could not find official documentation for Google's handwriting recogntiion so I had to read other people's code to figure out how to implement it which was great practice. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
