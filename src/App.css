@@ -70,7 +70,7 @@ button:hover{
 }
 @media (min-width: 1000px){
   .large-only{
-    display: initial;
+    display: block;
   }
   .small-only{
     display: none;
@@ -524,9 +524,29 @@ margin: 0;
 }
 .aboutPopup{
   width: min(100%, 600px);
-  height: 50%;
+  height: fit-content;
   margin: 2rem auto;
   background-color: white;
   position: relative;
   max-width: 800px;
+  color: black;
+}
+.aboutPopup h2{
+  color: var(--primary-color-50);
+}
+.aboutPopup > * {
+  margin: 0 1rem;
+  padding: 1rem 0;
+}
+
+/*misc*/
+.no-results{
+  margin: 3rem auto;
+  font-size: 1.5rem;
+  font-weight: 600;
+  opacity: 0.75;
+  max-width: 800px;
+}
+@media (min-width: 1000px){
+
 }

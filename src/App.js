@@ -12,7 +12,6 @@ import Popup from './components/popup';
 // about info
 // sort radical results by stroke count
 // include forvo link somewhere
-// fix select appearing with no results
 // make exact matches top
 
 function App() {
@@ -125,9 +124,10 @@ function App() {
           classes={"aboutPopup"}
           setShow={setShowAbout}
         >
-          <span>
-            ABOUT HERE
-          </span>
+          <h2>Sources:</h2>
+          <p> Definitions are sourced from Jim Breen's <a href='http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project'>JMdict</a> </p>
+          <p> Radical information is used sources from Jim Breen's <a href='http://www.edrdg.org/krad/kradinf.html'>RADKFILE</a>  </p>
+          <p> Example sentences are sourced from <a href='https://tatoeba.org/en'> Tatoeba </a> </p>
         </Popup>
       }
       <Navbar 
@@ -167,8 +167,13 @@ function App() {
         <div className='container flex'>
           
           {
-          results && results.Includes.length > 0 &&
-            <ResultSelect results={results[type]} setSelected={setSelected} selected={selected}/>  
+          results && results.Includes.length > 0 
+            ? <ResultSelect results={results[type]} setSelected={setSelected} selected={selected}/>  
+            : <div className='no-results'> 
+                <p className='large-only' >Press TAB to quickly switch between the search bar and the results.</p>
+                <p className='large-only'>Use WASD to navigate the results or CTRL+C to copy a direct link to the current result.</p>
+                <p>Enter a word in the search bar to get started :)</p>
+              </div>
           }
 
           {selected && 
