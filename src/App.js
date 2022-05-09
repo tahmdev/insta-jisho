@@ -70,24 +70,25 @@ function App() {
 
   const fetchData = (query) => {
     // fetch word definitions
-    fetch("http://192.168.178.22:9000/jisho/word/" + query)
+    fetch("https://instant-jisho.herokuapp.com/jisho/word/" + query)
     .then(res => res.json())
     .then(json => setResults(json))
 
     //fetch examples sentences, limited to 15
-    fetch("http://192.168.178.22:9000/jisho/example/tatoeba/" + query)
+    fetch("https://instant-jisho.herokuapp.com/jisho/example/tatoeba/" + query)
     .then(res => res.json())
     .then(json => {
       setExamples(json.filter((item, idx) => idx < 15))
     })
   }
 
+  // fetch example sentences on select change 
   useEffect(() => {
     if(selected){
       let query = selected.k_ele
       ? selected.k_ele[0].keb[0]
       : selected.r_ele[0].reb[0]
-      fetch("http://192.168.178.22:9000/jisho/example/tatoeba/" + query)
+      fetch("https://instant-jisho.herokuapp.com/jisho/example/tatoeba/" + query)
       .then(res => res.json())
       .then(json => {
         setExamples(json.filter((item, idx) => idx < 15))
@@ -95,14 +96,7 @@ function App() {
     }
   }, [selected])
 
-  const resetIdleTimer = () => {
-    clearTimeout(idleTimeout.current)
-    // reset query after inactivity
-    idleTimeout.current = setTimeout(() => {
-      setQuery("")
-    }, 10000);
-  }
-  
+  // handle tabbing back and forth between select and search,
   const handleKeyDown = (e) => {
     resetIdleTimer()
     if (e.key === "Tab"){
@@ -115,6 +109,15 @@ function App() {
       }
     }
   }
+
+  // reset query after inactivity
+  const resetIdleTimer = () => {
+    clearTimeout(idleTimeout.current)
+    idleTimeout.current = setTimeout(() => {
+      setQuery("")
+    }, 10000);
+  }
+
   useEventListener("keydown", handleKeyDown, window)
   useEventListener("mousedown", resetIdleTimer, window)
   return (
@@ -130,6 +133,7 @@ function App() {
           <p> Example sentences are sourced from <a href='https://tatoeba.org/en'> Tatoeba </a> </p>
         </Popup>
       }
+
       <Navbar 
         setQuery={setQuery}
         query={query}
@@ -167,16 +171,18 @@ function App() {
         <div className='container flex'>
           
           {
-          results && results.Includes.length > 0 
-            ? <ResultSelect results={results[type]} setSelected={setSelected} selected={selected}/>  
-            : <div className='no-results'> 
-                <p className='large-only' >Press TAB to quickly switch between the search bar and the results.</p>
-                <p className='large-only'>Use WASD to navigate the results or CTRL+C to copy a direct link to the current result.</p>
-                <p>Enter a word in the search bar to get started :)</p>
-              </div>
+          !results
+          ? <div className='no-results'> 
+              <p className='large-only' >Press TAB to quickly switch between the search bar and the results.</p>
+              <p className='large-only'>Use WASD to navigate the results or CTRL+C to copy a direct link to the current result.</p>
+              <p>Enter a word in the search bar to get started :)</p>
+            </div>
+          : results.Includes.length > 0
+          ? <ResultSelect results={results[type]} setSelected={setSelected} selected={selected}/>
+          : <span className='no-results'> No results found :( </span>
           }
 
-          {selected && 
+          {selected && results.Includes.length > 0 &&
           <div className='container flex'>
             
             <div className={`definition-wrapper ${showExamples ? "large-only" : ""}`}>
