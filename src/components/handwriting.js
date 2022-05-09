@@ -16,8 +16,8 @@ const HandwritingInput = ({width, height, maxHeight, maxWidth, minHeight, minWid
   }
   
   let [results, setResults] = useState()
-  let [widthRes, setWidthRes] = useState(minMax(percentOf(vw, window.screen.width), minWidth || -Infinity, maxWidth || Infinity))
-  let [heightRes, setHeightRes] = useState(minMax(percentOf(vh, window.screen.height), minWidth || -Infinity, maxWidth || Infinity))
+  let [widthRes, setWidthRes] = useState(minMax(percentOf(vw, window.innerWidth), minWidth || -Infinity, maxWidth || Infinity))
+  let [heightRes, setHeightRes] = useState(minMax(percentOf(vh, window.innerHeight), minWidth || -Infinity, maxWidth || Infinity))
   let [ink, setInk] = useState([])
 
   const handleResize = () => {
