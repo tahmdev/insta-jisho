@@ -13,6 +13,7 @@ import Popup from './components/popup';
 // sort radical results by stroke count
 // include forvo link somewhere
 // fix select appearing with no results
+// make exact matches top
 
 function App() {
   let [query, setQuery] = useState("")
@@ -166,7 +167,7 @@ function App() {
         <div className='container flex'>
           
           {
-          results &&
+          results && results.Includes.length > 0 &&
             <ResultSelect results={results[type]} setSelected={setSelected} selected={selected}/>  
           }
 

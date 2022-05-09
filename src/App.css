@@ -62,6 +62,9 @@ button:hover{
     flex-direction: row;
   }
 }
+.row{
+  flex-direction: row;
+}
 .large-only{
   display: none;
 }
@@ -82,9 +85,65 @@ button:hover{
 nav {
   background-color: var(--primary-color-100);
   z-index: 20;
-  padding: 0.5rem 0 1rem 0;
+  padding: 0.8rem 0;
   height: max(55px, fit-content);
 }
+.nav-button-wrapper{
+  display: flex;
+  align-items: center;
+  width: min(300px, 90%);
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+.nav-button-wrapper *{
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+@media (min-width: 700px){
+  .nav-button-wrapper{
+    width: fit-content;
+  } 
+}
+.input-method-button{
+  color: white;
+  font-size: 1.4rem;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  transition: all 100ms ease; 
+  width: 3.4rem;
+  height: 3.4rem;
+  padding: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .input-method-button:hover{
+    cursor: pointer;
+    background-color: white;
+    color: black;
+  }
+}
+.button-desc{
+  font-size: 0.8rem;
+}
+.example-switch{
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  height: 2rem;
+  transition: background-color 120ms ease-in-out;
+  width: 94px;
+}
+.example-switch:hover{
+  background-color: var(--primary-color-50);
+}
+@media (min-width: 700px){
+  .example-switch{
+    margin-right: 1rem;
+    order: -1;
+  }
+}
+/*Search select*/
 .search-select-wrapper{
   display: flex;
   width: min(300px, 90%);
@@ -94,7 +153,6 @@ nav {
   .search-select-wrapper{
     margin: 0 0.7rem;
   }
-  
 }
 #search{
   border: none;
@@ -120,58 +178,7 @@ nav {
 .search-select-wrapper > select:hover{
   cursor: pointer;
 }
-.input-method-button{
-  color: white;
-  font-size: 1.4rem;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  transition: all 100ms ease; 
-  width: 3.4rem;
-  height: 3.4rem;
-  padding: 0;
-}
-@media (hover: hover) and (pointer: fine) {
-  .input-method-button:hover{
-    cursor: pointer;
-    background-color: white;
-    color: black;
-  }
-}
-.button-desc{
-  font-size: 0.8rem;
-}
-.nav-button-wrapper{
-  display: flex;
-  align-items: center;
-  width: min(300px, 90%);
-  justify-content: space-between;
-}
-.nav-button-wrapper *{
-  font-family: Arial, Helvetica, sans-serif !important;
-}
-.example-switch{
-  background-color: transparent;
-  color: white;
-  border: 2px solid white;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  height: 2rem;
-  transition: background-color 120ms ease-in-out;
-  width: 94px;
-}
-.example-switch:hover{
-  background-color: var(--primary-color-50);
-}
-@media (min-width: 700px){
-  .nav-button-wrapper{
-    width: fit-content;
-  } 
-  .example-switch{
-    margin-right: 1rem;
-    order: -1;
-  }
-}
+/*About and lightmode*/
 .about-settings-wrapper{
 display: flex;
 width: 100%;

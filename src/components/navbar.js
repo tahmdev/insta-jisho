@@ -29,8 +29,7 @@ const Navbar = ({setQuery, query ,setType, type, setShowInput, showInput, setSho
     if(condition){
       return (
         {
-          borderBottom: "4px solid orange",
-          marginBottom: "-4px"
+          boxShadow: "0 4px 0px 0px orange"
         }
       )
     }
@@ -51,7 +50,7 @@ const Navbar = ({setQuery, query ,setType, type, setShowInput, showInput, setSho
       root.style.setProperty("--bg-200", "rgb(226, 226, 226)")
       root.style.setProperty("--bg-300", "rgb(197, 197, 197)")
       root.style.setProperty("--primary-color-600", "rgb(89, 131, 236)")
-      root.style.setProperty("--text-color", "black")
+      root.style.setProperty("--text-color", "rgb(43, 43, 43)")
     }else{
       root.style.setProperty("--bg-100", "rgb(43, 43, 43)")
       root.style.setProperty("--bg-200", "rgb(70, 70, 70)")
@@ -70,7 +69,7 @@ const Navbar = ({setQuery, query ,setType, type, setShowInput, showInput, setSho
       </div>
 
       <div className="nav-button-wrapper">
-        <div>
+        <div className="flex row" >
           <button className="input-method-button" 
             onClick={handleRadical} 
             style={activeStyle(showInput === "radical")}
