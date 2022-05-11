@@ -9,7 +9,6 @@ import useEventListener from './components/useEventListener';
 import Popup from './components/popup';
 import TimedNotif from './components/timedNotif';
 
-// style other forms
 // sort radical results by stroke count
 // include forvo link somewhere
 
@@ -126,8 +125,10 @@ function App() {
 
   useEventListener("keydown", handleKeyDown, window)
   useEventListener("mousedown", resetIdleTimer, window)
+
   return (
     <div className="App">
+      
       {showAbout&&
         <Popup
           classes={"aboutPopup"}

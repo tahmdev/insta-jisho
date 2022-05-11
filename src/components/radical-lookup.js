@@ -23,49 +23,32 @@ const RadicalLookup = ({handleButton}) => {
   }
 
   useEffect(() => {
-    setMutualChildren(getMutualChildren(selected))
+    fetch("http://localhost:9000/jisho/radical", 
+    {
+      method: "POST",
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(selected)
+    })
+    .then(res => res.json())
+    .then(json => {
+      setMutualChildren(json.mutualChildren)
+      setEnabled(json.enabled)
+    })
   }, [selected])
-
-  //takes an array of arrays and returns one array containing all mutual children
-  //by checking whether an item appears as many times as there are arrays
-  const getMutualChildren = (initArray) => {
-    if (initArray.length > 1){
-      const getAmount = (array, entry) => {
-        return array.filter(item => item === entry).length
-      }
-      
-      const removeDuplicates = (array) => {
-        return [...new Set(array)]
-      }
-  
-      return (
-        [...removeDuplicates(initArray
-          .map(item => removeDuplicates(item))
-          .flat()
-          .filter((item, idx, arr) => getAmount(arr, item) === initArray.length
-          ))
-        ]
-      )
-    }
-    else return initArray.flat()
-  }
-  
-  useEffect(() => {
-    if (selected.length === 0) setEnabled(Object.keys(radicalData))
-    else {
-      let newArr = Object.keys(radicalData).filter(key => {
-        return radicalData[key].kanji
-        .some(kanji => mutualChildren.includes(kanji))
-      })
-    setEnabled(newArr)}
-  }, [mutualChildren])
 
   return(
     <div>
       <div className="radical-select">
-        {mutualChildren.map(item => {
+        {mutualChildren.map((item, idx) => {
+          const renderStrokeCount = idx === 0 || mutualChildren[idx].strokes !== mutualChildren[idx - 1].strokes
           return(
-            <button onClick={handleButton} value={item} > {item} </button>
+            <>
+              {renderStrokeCount && <span className="flex-center"> {item.strokes} </span>}
+              <button onClick={handleButton} value={item.kanji} > {item.kanji} </button>
+            </>
           )
         })}
       </div>
@@ -88,7 +71,7 @@ const RadicalLookup = ({handleButton}) => {
                   className="radical-checkbox" 
                   type="checkbox"
                   id={key}
-                  onChange={e => handleUpdateSelected(e, radicalData[key].kanji)} 
+                  onChange={e => handleUpdateSelected(e, key)} 
                 />
                 <label  
                 htmlFor={key} 
