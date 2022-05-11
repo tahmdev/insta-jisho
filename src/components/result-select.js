@@ -1,12 +1,17 @@
 import { useEffect, useRef, useState } from "react"
 import useEventListener from "./useEventListener"
 
-const ResultSelect = ({results, setSelected, selected}) => {
+const ResultSelect = ({results, setSelected, selected, exact}) => {
   const selectRef = useRef()
   let controlDown = useRef()
   let [selectedIndex, setSelectedIndex] = useState(0)
-  const sortArray = (array) => {
+  let [sortedResults, setSortedResults] = useState()
 
+  useEffect(() => {
+    setSortedResults(sortResults(results))
+  }, [results])
+
+  const sortResults = (array) => {
     //sort by common word
     array = array.sort((a, b) => {
       if (a.r_ele[0].re_pri && !b.r_ele[0].re_pri) return -1
@@ -15,7 +20,7 @@ const ResultSelect = ({results, setSelected, selected}) => {
     })
     
     //sort by length
-    return array = array.sort((a, b) => {
+    array = array.sort((a, b) => {
       let aLength
       let bLength
       if (a.k_ele) aLength = a.k_ele[0].keb[0].length
@@ -24,26 +29,48 @@ const ResultSelect = ({results, setSelected, selected}) => {
       else bLength = b.r_ele[0].reb[0].length
       return aLength - bLength
     })
-  
+
+    //sort by exact match
+    if(exact){
+      return array.sort(a => {
+        let exactQuery
+        if (exact.k_ele) exactQuery = exact.k_ele[0].keb[0]
+        else         exactQuery = exact.r_ele[0].reb[0]
+        
+        if (a.k_ele) {
+          return a.k_ele.some(i => i.keb.includes(exactQuery))
+          ? -1
+          : 1
+        }else{
+          return a.r_ele.some(i => i.reb.includes(exactQuery))
+          ? -1
+          : 1
+        }
+      })
+    }else return array
   }
 
   useEffect(() => {
-    //display definition of top result when results change
-    setSelected(sortArray(results)[0])
-    
-    //select top result when results change
-    if(results.length) {
-      setSelectedIndex(0)
+    if (sortedResults !== undefined){
+      //display definition of top result when results change
+      setSelected(sortedResults[0])
+      
+      //select top result when results change
+      if(results.length) {
+        setSelectedIndex(0)
+      }
     }
-  }, [results])
+  }, [sortedResults])
 
   useEffect(() => {
-    // display definition of selected option
-    setSelected(sortArray(results)[selectedIndex])
+    if (sortedResults !== undefined){
+      // display definition of selected option
+      setSelected(sortedResults[selectedIndex])
 
-    // select correct item, allows for WASD controls
-    if(results.length) {
-      document.getElementById('result-select').getElementsByTagName('option')[selectedIndex].selected = 'selected'
+      // select correct item, allows for WASD controls
+      if(results.length) {
+        document.getElementById('result-select').getElementsByTagName('option')[selectedIndex].selected = 'selected'
+      }
     }
   }, [selectedIndex])
 
@@ -82,12 +109,15 @@ const ResultSelect = ({results, setSelected, selected}) => {
   useEventListener("keyup", handleKeyUp, selectRef)
 
   return(
-    <select id="result-select" className='result-select' size={6} 
+    <select 
+      id="result-select" 
+      className='result-select' 
+      size={2}
       onChange={e => setSelectedIndex(parseInt(e.target.value))}
       ref={selectRef}
     >
-      { 
-      sortArray(results).map((item, idx) => {
+      { sortedResults && 
+      sortedResults.map((item, idx) => {
         return(
           <option key={idx} value={idx}>
             {item.k_ele

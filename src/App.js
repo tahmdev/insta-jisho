@@ -8,8 +8,10 @@ import HandwritingInput from './components/handwriting';
 import useEventListener from './components/useEventListener';
 import Popup from './components/popup';
 
+// notification on copy 
+// focus on input after clicking radical / handwriting button
+// create keyboardButton component
 // style other forms
-// about info
 // sort radical results by stroke count
 // include forvo link somewhere
 // make exact matches top
@@ -178,7 +180,7 @@ function App() {
               <p>Enter a word in the search bar to get started :)</p>
             </div>
           : results.Includes.length > 0
-          ? <ResultSelect results={results[type]} setSelected={setSelected} selected={selected}/>
+          ? <ResultSelect results={results[type]} setSelected={setSelected} selected={selected} exact={results.Exact[0]} />
           : <span className='no-results'> No results found :( </span>
           }
 
@@ -202,7 +204,6 @@ function App() {
 
         </div>
       </main>
-        
     </div>
   );
 }
