@@ -152,7 +152,7 @@ const DefinitionDisplay = ({selected}) => {
             {
               selected.k_ele.map((item, idx) => {
                 if(idx !== 0){
-                  return item.keb
+                  return <span> {item.keb} </span>
                 }
               })
             }
