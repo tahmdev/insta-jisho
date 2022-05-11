@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/insta-jisho/static/css/main.ca4d9ecd.css",
-    "main.js": "/insta-jisho/static/js/main.2c448324.js",
+    "main.css": "/insta-jisho/static/css/main.001311f1.css",
+    "main.js": "/insta-jisho/static/js/main.589e9acf.js",
     "static/js/787.4c79ed64.chunk.js": "/insta-jisho/static/js/787.4c79ed64.chunk.js",
     "index.html": "/insta-jisho/index.html",
-    "main.ca4d9ecd.css.map": "/insta-jisho/static/css/main.ca4d9ecd.css.map",
-    "main.2c448324.js.map": "/insta-jisho/static/js/main.2c448324.js.map",
+    "main.001311f1.css.map": "/insta-jisho/static/css/main.001311f1.css.map",
+    "main.589e9acf.js.map": "/insta-jisho/static/js/main.589e9acf.js.map",
     "787.4c79ed64.chunk.js.map": "/insta-jisho/static/js/787.4c79ed64.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ca4d9ecd.css",
-    "static/js/main.2c448324.js"
+    "static/css/main.001311f1.css",
+    "static/js/main.589e9acf.js"
   ]
 }
