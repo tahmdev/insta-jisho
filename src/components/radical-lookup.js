@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import radicalData from "../radk.json"
 
-const RadicalLookup = ({setQuery}) => {
+const RadicalLookup = ({handleButton}) => {
   let [selected, setSelected] = useState([])
   let [mutualChildren, setMutualChildren] = useState([])
   let [enabled, setEnabled] = useState([])
@@ -64,7 +64,7 @@ const RadicalLookup = ({setQuery}) => {
       <div className="radical-select">
         {mutualChildren.map(item => {
           return(
-            <button onClick={() => setQuery(prev => prev + item)} > {item} </button>
+            <button onClick={handleButton} value={item} > {item} </button>
           )
         })}
       </div>

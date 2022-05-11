@@ -14,7 +14,6 @@ import Popup from './components/popup';
 // style other forms
 // sort radical results by stroke count
 // include forvo link somewhere
-// make exact matches top
 
 function App() {
   let [query, setQuery] = useState("")
@@ -120,6 +119,12 @@ function App() {
     }, 10000);
   }
 
+  const inputButton = (e) => {
+    console.log(e.target.value)
+    setQuery(prev => prev + e.target.value)
+    document.getElementById("search").focus()
+  }
+
   useEventListener("keydown", handleKeyDown, window)
   useEventListener("mousedown", resetIdleTimer, window)
   return (
@@ -150,7 +155,7 @@ function App() {
 
       {showInput === "radical" && 
         <div id="radical-lookup-wrapper" className='container' >
-          <RadicalLookup setQuery={setQuery} showInput={showInput} />
+          <RadicalLookup setQuery={setQuery} handleButton={inputButton} />
         </div>
       }
 
@@ -164,7 +169,7 @@ function App() {
             maxHeight={300}
             language={"ja"}
             options={{color: "#3D86F0"}}
-            handleButton={e => setQuery(prev => prev + e.target.value)}
+            handleButton={inputButton}
           />
         </div>
       }
