@@ -276,7 +276,7 @@ margin: 0;
 }
 @media (min-width: 700px){
   .result-select{
-    height: 95%;
+    height: 80vh;
     max-height: 600px;
     box-shadow: inset 0px 0px 100px 35px var(--bg-100);
     background-color: var(--bg-200);
@@ -552,6 +552,35 @@ margin: 0;
   opacity: 0.75;
   max-width: 800px;
 }
-@media (min-width: 1000px){
-
+.copy-notif{
+  background-color: var(--primary-color-100);
+  color: white;
+  padding: 0.8rem 1rem;
+  height: fit-content;
+  width: fit-content;
+  border-radius: 15px;
+  position: absolute;
+  z-index: 1000;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-name: copy-notif-animation;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+}
+@keyframes copy-notif-animation{
+  0%{
+    opacity: 0.5;
+    transform: translateY(0);
+  }
+  30%{
+    opacity: 1;
+  }
+  60%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+    transform: translateY(-0.7rem);
+  }
 }

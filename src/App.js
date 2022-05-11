@@ -7,10 +7,8 @@ import Navbar from './components/navbar';
 import HandwritingInput from './components/handwriting';
 import useEventListener from './components/useEventListener';
 import Popup from './components/popup';
+import TimedNotif from './components/timedNotif';
 
-// notification on copy 
-// focus on input after clicking radical / handwriting button
-// create keyboardButton component
 // style other forms
 // sort radical results by stroke count
 // include forvo link somewhere
@@ -47,6 +45,7 @@ function App() {
   let [selected, setSelected] = useState()
   let [showInput, setShowInput] = useState("none")
   let [showAbout, setShowAbout] = useState(false)
+  let [showCopyNotif, setShowCopyNotif] = useState(false)
   let queryTimeout = useRef()
   let idleTimeout = useRef()
   
@@ -141,6 +140,16 @@ function App() {
         </Popup>
       }
 
+      {showCopyNotif &&
+        <TimedNotif 
+          classes={"copy-notif"}
+          time={600}
+          hide={() => setShowCopyNotif(false)}
+        >
+          <span> Saved to clipboard </span>
+        </TimedNotif>
+      }
+
       <Navbar 
         setQuery={setQuery}
         query={query}
@@ -185,7 +194,13 @@ function App() {
               <p>Enter a word in the search bar to get started :)</p>
             </div>
           : results.Includes.length > 0
-          ? <ResultSelect results={results[type]} setSelected={setSelected} selected={selected} exact={results.Exact[0]} />
+          ? <ResultSelect
+              results={results[type]} 
+              setSelected={setSelected} 
+              selected={selected} 
+              exact={results.Exact[0]} 
+              setShowCopyNotif={setShowCopyNotif}
+            />
           : <span className='no-results'> No results found :( </span>
           }
 

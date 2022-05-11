@@ -43,7 +43,7 @@ const HandwritingInput = ({width, height, maxHeight, maxWidth, minHeight, minWid
           {
             results && results.map((item, idx) => {
               return(
-                <button key={idx} tabIndex={-1} onClick={handleButton} value={item}> {item} </button>
+                <button key={idx} onClick={handleButton} value={item}> {item} </button>
               )
             })
           }

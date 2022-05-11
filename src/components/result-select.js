@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import useEventListener from "./useEventListener"
 
-const ResultSelect = ({results, setSelected, selected, exact}) => {
+const ResultSelect = ({results, setSelected, selected, exact, setShowCopyNotif}) => {
   const selectRef = useRef()
   let controlDown = useRef()
   let [selectedIndex, setSelectedIndex] = useState(0)
@@ -81,6 +81,7 @@ const ResultSelect = ({results, setSelected, selected, exact}) => {
       ? selected.k_ele[0].keb
       : selected.r_ele[0].reb
       navigator.clipboard.writeText(`http://localhost:3000/?search=${query}&type=e`)
+      setShowCopyNotif(true)
     }
 
     if(e.key === "s"){

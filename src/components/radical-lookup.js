@@ -6,6 +6,7 @@ const RadicalLookup = ({handleButton}) => {
   let [mutualChildren, setMutualChildren] = useState([])
   let [enabled, setEnabled] = useState([])
 
+
   const handleUpdateSelected = (e, value) => {
     if (e.target.checked) setSelected(prev => [value, ...prev])
 
