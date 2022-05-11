@@ -201,10 +201,13 @@ margin: 0;
   background-color: transparent;
   text-decoration: underline;
 }
-.lightmode-input{
+
+
+/* Switch */
+.switch-input{
   display: none;
 }
-.lightmode-label{
+.switch-label{
   background-color: rgb(43, 43, 43);
   position: relative;
   display: inline-block;
@@ -216,7 +219,7 @@ margin: 0;
   -webkit-transition: 200ms;
   transition: 200ms;
 }
-.lightmode-label:before {
+.switch-label:before {
   position: absolute;
   content: "";
   height: 1rem;
@@ -226,15 +229,16 @@ margin: 0;
   transition: 200ms;
   border-radius: 50%;
 }
-.lightmode-input:checked + .lightmode-label{
+.switch-input:checked + .switch-label:before{
+  transform: translateX(1rem);
+}
+/* Lightmode Switch */
+.lightmode-switch .switch-input:checked + .switch-label{
   background-color: white;
 }
-.lightmode-input:checked + .lightmode-label:before{
-  transform: translateX(1rem);
+.lightmode-switch .switch-input:checked + .switch-label:before{
   background-color: rgb(43, 43, 43);
 }
-
-
 
 /* Definition display */
 .definition-wrapper{

@@ -51,10 +51,11 @@ const RadicalLookup = ({setQuery}) => {
   
   useEffect(() => {
     if (selected.length === 0) setEnabled(Object.keys(radicalData))
-    else {let newArr = Object.keys(radicalData).filter(key => {
-      return radicalData[key].kanji
-      .some(kanji => mutualChildren.includes(kanji))
-    })
+    else {
+      let newArr = Object.keys(radicalData).filter(key => {
+        return radicalData[key].kanji
+        .some(kanji => mutualChildren.includes(kanji))
+      })
     setEnabled(newArr)}
   }, [mutualChildren])
 

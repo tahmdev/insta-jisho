@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import useLocalstorage from "../hooks/useLocalStorage"
+import Switch from "./switch"
 
 const Navbar = ({setQuery, query ,setType, type, setShowInput, showInput, setShowAbout, showExamples, setShowExamples}) => {
 
@@ -35,14 +36,6 @@ const Navbar = ({setQuery, query ,setType, type, setShowInput, showInput, setSho
     }
   } 
 
-  const handleLightmode = (e) => {
-    if(e.target.checked){
-      setLightmode(true)
-    }else{
-      setLightmode(false)
-    }
-  }
-
   useEffect(() => {
     let root = document.documentElement;
     if(lightmode){
@@ -63,8 +56,12 @@ const Navbar = ({setQuery, query ,setType, type, setShowInput, showInput, setSho
     <nav className='flex-center'>
       
       <div className="about-settings-wrapper">
-        <input className="lightmode-input" onChange={handleLightmode} checked={lightmode} type="checkbox" id="lightmode"/>
-        <label className="lightmode-label" htmlFor="lightmode" /> 
+        <Switch 
+          id="lightmode" 
+          checked={lightmode} 
+          onChange={e => setLightmode(e.target.checked)} 
+          classes="lightmode-switch"
+        />
         <button className="about-button" onClick={() => setShowAbout(true)} >About</button>
       </div>
 
