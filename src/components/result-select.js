@@ -120,9 +120,11 @@ const ResultSelect = ({results, setSelected, selected, exact}) => {
       sortedResults.map((item, idx) => {
         return(
           <option key={idx} value={idx}>
-            {item.k_ele
-            ? item.k_ele[0].keb
-            : item.r_ele[0].reb
+            {!item.k_ele
+            ? item.r_ele[0].reb[0]
+            : item.k_ele[0].keb[0].length === 1
+            ? `${item.k_ele[0].keb[0]} (${item.r_ele[0].reb[0]})`
+            : item.k_ele[0].keb[0]
           }
           </option>
         )
