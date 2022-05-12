@@ -9,7 +9,6 @@ import useEventListener from './components/useEventListener';
 import Popup from './components/popup';
 import TimedNotif from './components/timedNotif';
 
-// sort radical results by stroke count
 // include forvo link somewhere
 
 function App() {

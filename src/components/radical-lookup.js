@@ -23,7 +23,7 @@ const RadicalLookup = ({handleButton}) => {
   }
 
   useEffect(() => {
-    fetch("http://localhost:9000/jisho/radical", 
+    fetch("https://instant-jisho.herokuapp.com/jisho/radical", 
     {
       method: "POST",
       headers: {
