@@ -9,8 +9,6 @@ import useEventListener from './components/useEventListener';
 import Popup from './components/popup';
 import TimedNotif from './components/timedNotif';
 
-// include forvo link somewhere
-
 function App() {
   let [query, setQuery] = useState("")
   let [type, setType] = useState(() => {
