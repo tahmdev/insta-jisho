@@ -1,3 +1,4 @@
+https://tahmdev.github.io/insta-jisho/
 # Goal of this project
 Creating an alternative to Jisho.org that is more focused on reducing the amount of time it takes to look something up. I achieved this by:
 - Automatic lookups
