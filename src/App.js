@@ -133,7 +133,7 @@ function App() {
         >
           <h2>Sources:</h2>
           <p> Definitions are sourced from Jim Breen's <a href='http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project'>JMdict</a> </p>
-          <p> Radical information is used sources from Jim Breen's <a href='http://www.edrdg.org/krad/kradinf.html'>RADKFILE</a>  </p>
+          <p> Radical information is sourced from Jim Breen's <a href='http://www.edrdg.org/krad/kradinf.html'>RADKFILE</a>  </p>
           <p> Example sentences are sourced from <a href='https://tatoeba.org/en'> Tatoeba </a> </p>
         </Popup>
       }
